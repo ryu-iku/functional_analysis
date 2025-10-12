@@ -1,0 +1,313 @@
+\documentclass{article}
+\usepackage{amsmath, amssymb, amsthm}
+\usepackage{geometry}
+\geometry{a4paper, margin=1in}
+
+\DeclareMathOperator{\esssup}{ess\,sup}
+\newcommand{\norm}[1]{\left\|#1\right\|}
+\newcommand{\abs}[1]{\left|#1\right|}
+\newcommand{\set}[1]{\left\{#1\right\}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\C}{\mathbb{C}}
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\ellp}{\ell^p}
+\newcommand{\ellq}{\ell^q}
+\newcommand{\ip}[2]{\left\langle #1, #2 \right\rangle}
+
+\newtheorem{problem}{Problem}
+
+\begin{document}
+
+\begin{center}
+    \textbf{\Large Functional Analysis - Homework 4}
+\end{center}
+
+\hrule
+\vspace{0.5em}
+
+% ---------------------------
+% Problem 1
+% ---------------------------
+
+\begin{problem}
+
+\end{problem}
+
+\begin{proof}
+
+    Let $X = [1,2] \subset \mathbb{R}$, a complete metric space.
+
+    Let $\epsilon > 0$, $m \in \mathbb{N}$, and 
+    $$
+    A_m = \{ x \in X : \forall n \geq m, \abs{f(nx)} \leq \epsilon \}
+    $$
+
+    Since $f$ is continuous, $A$ is closed.
+
+    $\forall x \in X$, since $\lim_{n \to \infty}(nx) = 0$
+    $$
+    \exists n > N, \abs{f(nx)} \leq \epsilon
+    $$
+    , meaning $x$ should be contained in one of $A_m$s.
+
+    Thus,
+    $$
+    X = \bigcup_m A_m
+    $$
+
+    With Baire’s category Theorem, at least one $A_m$s contains an open ball $B(b_0, r)$, where $b_0 \in X, r > 0$.
+
+    Therefore,
+    \begin{gather}
+    \forall n > m, b < r, \abs{f(n(b_0 + b))} \leq \epsilon 
+    \\
+    \because n\frac{b_0 + r}{b_0 + b} > m
+    \therefore \abs{f(n(b_0 + r))} \leq \epsilon
+    \end{gather}
+
+    
+    For $x \in (0, \infty)$, with $n > \frac{m}{x}(b_0 + r)$, we have
+    $$
+    \abs{f(nx)} = \abs{f(\frac{m}{x}(b_0 + r) x)}
+    = \abs{f(\frac{m}{x}(b_0 + r) x)}  \leq \epsilon .
+    $$
+    , which means $\lim_{t \to \infty} f(t) = 0$.
+
+    For $x = 0$, from $\lim_{n \to \infty} f(n 0) = 0$, we know $f(0) = 0$.
+
+    In a whole, For $x \in [0, \infty)$, $\lim_{t \to \infty} f(t) = 0$.
+
+    
+\end{proof}
+
+\hrule
+\vspace{0.5em}
+
+% ---------------------------
+% Problem 2
+% ---------------------------
+
+\begin{problem}
+
+\end{problem}
+
+\begin{proof}
+1. Linearity of $c_0(X)$:
+Let $x = (x_n), y = (y_n) \in c_0(X)$ and $\lambda \in \mathbb{K}$.
+\begin{itemize}
+    \item Addition: $x+y = (x_n + y_n)$. By the triangle inequality on $X$:
+    \begin{gather}
+        0 
+        \leq \lim_{n\to\infty}\norm{x_n + y_n} 
+        \leq \lim_{n\to\infty}(\norm{x_n} + \norm{y_n})
+        = \lim_{n\to\infty}\norm{x_n} + \lim_{n\to\infty}\norm{y_n} = 0
+        \\
+        \therefore \lim_{n\to\infty} \norm{x_n + y_n} = 0
+    \end{gather}
+    
+    Thus, $x+y \in c_0(X)$.
+
+    \item Scalar Multiplication: $\lambda x = (\lambda x_n)$. By the properties of a norm:
+    $$
+    \lim_{n\to\infty} \norm{\lambda x_n} = \lim_{n\to\infty} \abs{\lambda} \norm{x_n} = \abs{\lambda} \lim_{n\to\infty} \norm{x_n} = \abs{\lambda} \cdot 0 = 0
+    $$
+    Thus $\lambda x \in c_0(X)$.
+\end{itemize}
+Hence, $c_0(X)$ is a linear space.
+
+2. $X$ is Banach $\Longrightarrow$ completeness of $c_0(X)$ :
+
+Assume $X$ is a Banach space. Let $(x^{(k)})_{k\in\N}$ be a Cauchy sequence converging to $x$ in $c_0(X)$ with respect to the $\sup$-norm, where $x^{(k)} = (x_1^{(k)}, x_2^{(k)}, \ldots)$.
+
+$$
+\forall \epsilon > 0, \exists k > N \text{ s.t. } 
+\norm{x^{(k)} - x} < \epsilon, 
+$$
+
+\begin{gather}
+\therefore \epsilon > \norm{x^{(k)} - x}
+= \sup_{n\in\N} \norm{x_n^{(k)} - x_n}
+\\
+\therefore \norm{x_n^{(k)} - x_n} < \epsilon
+\\
+\therefore \norm{x_n}_{X} \leq \norm{x_n - x_n^{(K)}}_{X} + \norm{x_n^{(K)}}_{X} < \epsilon + \norm{x_n^{(K)}}_{X}
+\end{gather}
+
+Since $x^{(K)} \in c_0(X)$, $\lim_{n\to\infty} \norm{x_n^{(K)}}_{X} = 0$. Therefore, there exists $N \in \N$ such that for all $n \geq N$, $\norm{x_n^{(K)}}_{X} < \epsilon$.
+Hence, for $n \geq N$:
+$$\norm{x_n}_{X} \leq \epsilon + \epsilon = 2\epsilon$$
+Since $\epsilon > 0$ was arbitrary, this proves $\lim_{n\to\infty} \norm{x_n}_{X} = 0$, so $x \in c_0(X)$.
+Since every Cauchy sequence in $c_0(X)$ converges to an element in $c_0(X)$, the space $c_0(X)$ is Banach.
+\end{proof}
+
+\hrule
+\vspace{0.5em}
+
+% ---------------------------
+% Problem 3
+% ---------------------------
+
+\begin{problem}
+\end{problem}
+
+\begin{proof}
+
+\textbf{(a) $\implies$ (b)}
+
+We define a new space 
+$$
+Z = \{ (x_n)_{n \in \N} : \norm{x_n} \rightarrow 0 \}
+$$
+and norm $ \norm{(x_n)_{n \in \N}} = \sup_{n} \norm{x_n} $.
+
+% Since $(x_n)_{n \in \N}$ converge to 0, 
+% $$
+% \forall \frac{\epsilon}{2} > 0, \exists m > N, \text{ .s.t. } \norm{z_m} \leq \norm{x_m} + \norm{x_{m+1}} \leq \frac{\epsilon}{2} + \frac{\epsilon}{2} = \epsilon
+% $$
+% Therefore, $(z_n)_{n \in \N}$ converge to 0 as well. 
+According to the proof of Problem 2, $Z$ is Banach.
+
+We define an operator $S_k: Z \rightarrow Y$
+$$
+S_k(z) = T_k(x_k - x_{k+1}).
+$$
+Therefore,
+\begin{gather}
+\norm{S_k(z)} = \norm{T_k(x_k - x_{k+1})} 
+\\
+\leq \norm{T_k} \norm{x_k - x_{k+1}} 
+\\
+\leq \norm{T_k} (\norm{x_k} + \norm{x_{k+1}})
+\\
+\leq \norm{T_k} \cdot 2 \sup_{n \in \N} \norm{x_n}
+\end{gather}
+
+Therefore, 
+$$
+\norm{S_k}  \leq 2 \norm{T_k} < \infty
+$$
+as $T_k$ is continuous.
+
+Since $T_k(x_k) \rightarrow 0$ in norm, $S_k$ should be the same.
+\begin{gather}
+\lim_{k \to \infty} \norm{S_k(z)} = 0
+\\
+\therefore \sup_{k \in \N} \norm{S_k(z)} < \infty
+\end{gather}
+
+With the Uniform Boundedness Principle, we have
+\begin{gather}
+    \sup_{k \in \N} \norm{S_k} < \infty
+\end{gather}
+
+
+$
+\text{For any } t \in X \text{ with }  \norm{t} \le 1 \text{, define the sequence } 
+z' = (x_n)_{n \in \N}
+$,  where $x_n = t$ if $n=k$, and $x_n = 0$ else.
+Then,
+$
+\sup_{n} x_n = \norm{t} \le 1.
+$
+Applying the operator $S_k$,
+\begin{gather}
+    \norm{S_k(z')} = \norm{T_k(x_k - x_{k+1})} = \norm{T_k(x_k)} 
+    \\
+    \therefore \norm{S_k} \geq \sup_{\norm{t} \leq 1} \norm{T_k(t)} = \norm{T_k}
+\end{gather}
+Since $\sup_{k \in \N} \norm{S_k} < \infty$,
+$$
+\norm{T_k} < \infty
+$$
+
+\textbf{Proof: (b) $\implies$ (a)}
+Assume (b) holds, i.e., $M = \sup_{n\in\N} \norm{T_n} < \infty$.
+Assume $\sum_{n=1}^{\infty}x_{n}$ is a norm convergent series. Let $s$ be the sum. The sequence of partial sums $s_N = \sum_{n=1}^N x_n$ converges to $s$.
+This implies that the terms of the series must converge to zero: $\lim_{n\to\infty} x_n = 0$ in the norm of $X$.
+
+$$
+\norm{T_n(x_n)}_Y \leq \norm{T_n} \cdot \norm{x_n}_X
+$$
+Since $\sup_{n\in\N} \norm{T_n} = M < \infty$, we have:
+$$
+0 \leq \norm{T_n(x_n)}_Y \leq M \cdot \norm{x_n}_X
+$$
+Since $\lim_{n\to\infty} \norm{x_n}_X = 0$ and $M$ is a finite constant, we have $\lim_{n\to\infty} M \cdot \norm{x_n}_X = 0$.
+By the Squeeze Theorem, $\lim_{n\to\infty} \norm{T_n(x_n)}_Y = 0$. Thus, $T_n(x_n) \to 0$ in norm.
+
+\end{proof}
+
+
+\hrule
+\vspace{0.5em}
+
+% ---------------------------
+% Problem 4
+% ---------------------------
+
+\begin{problem}
+\end{problem}
+
+\begin{proof}
+
+\textbf{(a) $\implies$ (b):}
+The set of $p$-absolutely norm convergent sequences $E = \ell_p(X)$ is a Banach space with the norm $\norm{(x_n)}_p = \left(\sum_{n=1}^{\infty} \norm{x_n}^p\right)^{1/p}$.
+
+(a) states that for every sequence $(x_n) \in E$, the sum $\sum_{n=1}^{\infty}x_{n}^{*}(x_{n})$ converges. This allows us to define a linear functional $T: E \to \mathbb{K}$ by:
+$$
+T((x_n)) = \sum_{n=1}^{\infty} x_{n}^{*}(x_{n})
+$$
+
+Since $T$ is a well-defined linear map on the entire Banach space $E$, the Uniform Boundedness Principle implies that $T$ is bounded and in turn continuous. We have $T \in E^*$.
+
+With Dual Space Isomorphism, the dual space of $\ell_p(X)$ is isometrically isomorphic to $\ell_q(X^*)$:
+
+$$\ell_p(X)^* \cong \ell_q(X^*)$$
+
+$(x_n^*)$ corresponds to the functional $T$, and the norm of $T$ in the dual space is precisely the $\ell_q$ norm of the sequence $(x_n^*)$ in the dual sequence space:
+$$
+\norm{T}_{E^*} = \left(\sum_{n=1}^{\infty} \norm{x_{n}^{*}}^{q}\right)^{1/q}
+$$
+
+Since $T$ is continuous, $\norm{T}_{E^*} < \infty$, which means $\sum_{n=1}^{\infty}\norm{x_{n}^{*}}^{q}<\infty$. Thus, (b) holds.
+
+
+\textbf{(b) $\implies$ (a):}
+Assume (b) holds: $(x_n^*) \in \ell_q(X^*)$, so $A = \left(\sum_{n=1}^{\infty} \norm{x_{n}^{*}}^{q}\right)^{1/q} < \infty$.
+
+Assume the series $\sum_{n=1}^{\infty} x_n$ is $p$-absolutely norm convergent: 
+$(x_n) \in \ell_p(X)$, so 
+$$
+B = \left(\sum_{n=1}^{\infty} \norm{x_{n}}^{p}\right)^{1/p} < \infty
+$$
+
+With the Holder's Inequality, we have:
+\begin{gather}
+    \sum_{n=1}^{\infty} \abs{x_{n}^{*}(x_{n})} \leq 
+    \sum_{n=1}^{\infty} \norm{x_{n}^{*}} \cdot \norm{x_{n}} 
+    \\
+    \leq \left(\sum_{n=1}^{\infty} \norm{x_{n}^{*}}^{q}\right)^{1/q} \left(\sum_{n=1}^{\infty} \norm{x_{n}}^{p}\right)^{1/p} = A \cdot B < \infty
+\end{gather}
+
+
+\vspace{0.5em}
+\textbf{(c) $\iff$ (d)}
+
+Let $X=\mathbb{K}$. Then the dual space $X^*$ is also $\mathbb{K}$.
+
+A continuous linear functional $x_n^*: \mathbb{K} \to \mathbb{K}$ is simply multiplication by a scalar $x_n \in \mathbb{K}$. The norm of this functional is $||x_n^*|| = |x_n|$. The input vector $x_n$ from statement (a) is now a scalar $y_n$.
+
+Thus, statement (a) becomes:
+Given a series $\sum_{n=1}^{\infty} y_{n}$ such that $\sum_{n=1}^{\infty}|y_{n}|^{p}<\infty$ (i.e., $(y_n) \in \ell_p$) one has that the series $\sum_{n=1}^{\infty}x_{n}y_{n}$ converges.
+This is precisely statement (d). So we have (d) $\implies$ (a).
+
+
+And statement (b) becomes: 
+The series $\sum_{n=1}^{\infty}x_{n}^{*}$ is $q$-absolutely norm convergent i.e., $\sum_{n=1}^{\infty}\norm{x_{n}^{*}}^{q}<\infty$.
+Since $\norm{x_{n}^{*}} = |x_n|$, this simplifies to $\sum_{n=1}^{\infty}|x_{n}|^{q}<\infty$, which means $(x_n) \in \ell_q$.
+This is precisely statement (c). So we have (d) $\implies$ (a).
+
+Since (a) is equivalent to (b), (d) is equivalent to (c).
+\end{proof}
+
+\end{document}

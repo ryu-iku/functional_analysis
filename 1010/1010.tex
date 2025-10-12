@@ -1,0 +1,334 @@
+\documentclass{article}
+\usepackage{amsmath, amssymb, amsthm}
+\usepackage{geometry}
+\geometry{a4paper, margin=1in}
+
+\DeclareMathOperator{\esssup}{ess\,sup}
+\newcommand{\norm}[1]{\left\|#1\right\|}
+\newcommand{\abs}[1]{\left|#1\right|}
+\newcommand{\set}[1]{\left\{#1\right\}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\C}{\mathbb{C}}
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\ellp}{\ell^p}
+\newcommand{\ellq}{\ell^q}
+\newcommand{\ip}[2]{\left\langle #1, #2 \right\rangle}
+
+\newtheorem{problem}{Problem}
+
+\begin{document}
+
+\begin{center}
+    \textbf{\Large Functional Analysis - Homework 5}
+\end{center}
+
+\hrule
+\vspace{0.5em}
+
+% ---------------------------
+% Problem 1
+% ---------------------------
+\begin{problem}
+\end{problem}
+% ------------- Solution
+\begin{proof}
+\textbf{a)}
+First, we prove $M$ is continuous at $(0, 0)$, which is equivalent to
+\begin{gather}
+\forall \epsilon > 0, \exists \delta > 0, \text{ s.t. }
+\norm{(x,y)}_{X \times Y} < \delta
+\implies
+\norm{M(x, y)}_Z < \epsilon
+\end{gather}
+
+Suppose
+\begin{gather}
+    \norm{(x,y)}_{X \times Y} 
+    = \norm{x}_X + \norm{y}_Y < \delta = \sqrt{\frac{\epsilon}{C}}
+\end{gather}
+
+, we will have
+\begin{gather}
+    \norm{M(x, y)}_Z 
+    \leq C \norm{x}_X \norm{y}_Y
+    \\
+    \leq C (\norm{x}_X + \norm{y}_Y) (\norm{x}_X + \norm{y}_Y)
+    \\
+    = C \delta^2 = \epsilon
+\end{gather}
+, which is exactly equation (1). Thus, $M$ is continuous at $(0, 0)$.
+Since $M$ is bi-linear, the continuity holds for the whole space.
+
+\textbf{b)}
+
+Assume $X$ is complete, which means it is Banach. 
+
+Define a linear opertor
+\begin{gather}
+    L_y: X \to Z, L_y (x) := M(x, y)
+\end{gather}
+with $x \in X, y \in Y$.
+
+Since $ y \mapsto M(x',y) $ is continuous and linear, $\norm{M(x',y)}$ should be bounded with fixed $x' \in X$. Thus,
+\begin{gather}
+    \sup_{\norm{y}_Y=1} \norm{L_y(x')}_Z
+    = C_{x'}
+    < \infty
+\end{gather}
+, which implies pointwise boundedness of $L_y$ for $\{y \in Y : \norm{y}_Y=1\}$.
+
+With Uniform Boundedness Theorem, we have the operator boundedness:
+\begin{gather}
+    \sup_{\norm{y}_Y=1} \norm{L_y}
+    = C
+    < \infty
+\end{gather}
+
+\begin{align}
+    \because L_y(x)
+    &= M(x, y)
+    \\
+    &= \norm{y}_Y M(x, \frac{y}{\norm{y}_Y})
+    \\
+    &= \norm{y}_Y M(x, u),
+    \text{ where } 
+    u = \frac{y}{\norm{y}_Y}
+    \\
+    &= \norm{y}_Y L_{u}(x)
+    \text{, where } 
+    \norm{u} = 1
+    \\
+    \therefore \norm{L_y}
+    &\leq \norm{y}_Y C
+\end{align}
+
+Since $ x \mapsto M(x,y')$ is continuous and linear, $\norm{M(x,y')}$ is bounded with fixed $y' \in Y$.
+\begin{align}
+    \norm{M(x,y')}_Z
+    = 
+    \norm{L_{y'}(x)}_Z
+    \leq \norm{L_{y'}} \norm{x}_X
+    \\
+    \therefore
+    \norm{M(x, y)}_Z 
+    \leq C \norm{x}_X \norm{y}_Y
+\end{align}
+
+\end{proof}
+
+\hrule
+\vspace{0.5em}
+
+% ---------------------------
+% Problem 2
+% ---------------------------
+
+\begin{problem}
+\end{problem}
+% ------------- Solution
+\begin{proof}
+\textbf{(1) continuity $\implies$ closedness }
+
+Suppose $f$ is continuous. 
+With a closed set $V$ in $R$, $f^{-1}(V)$ should be closed in $E$.
+
+Therefore, as $\{\alpha \}$ is closed in $R$, $H_{\alpha} = f^{-1}(\{\alpha \})$ is closed in $E$.
+
+\textbf{(2) closedness $\implies$ continuity } 
+
+Suppose there exists a quotient space $E / H_0$, with a norm
+\begin{align}
+    \norm{[x]}_{E / H_0} = \inf_{y \in H_0} \norm{x - y}_E
+\end{align}
+, with $x \in E$ and $[x]$ is the equivalence class of x.
+
+Verify the norm as follows.
+
+1. Homogeneity:
+$\forall \lambda \in \R, x \in E$,
+\begin{align}
+    \norm{[\lambda x]}_{E / H_0} 
+    &= \inf_{y \in H_0} \norm{\lambda x - y}_E
+    \\
+    &= \inf_{y' \in H_0} \norm{\lambda x - \lambda y'}_E
+    \text{, where } y' = \frac{y'}{\lambda}
+    \\
+    &= \inf_{y' \in H_0} \lambda \norm{x - y'}_E
+    \\
+    &= \lambda \norm{[x]}_{E / H_0} 
+\end{align}
+
+2. triangle inequality:
+$\forall \lambda \in \R, x_1, x_2 \in E$,
+\begin{align}
+    \norm{[x_1 + x_2]}_{E / H_0} 
+    &= \inf_{y \in H_0} \norm{ x_1 + x_2 - y}_E
+    \\
+    &= \inf_{y' \in H_0} \norm{ x_1 -  y'}_E + \inf_{y' \in H_0} \norm{ x_2 -  y'}_E
+    \text{, where } y' = \frac{y}{2}
+    \\
+    &= \norm{[x_1]}_{E / H_0} + \norm{[x_2]}_{E / H_0}
+\end{align}
+.
+
+3. Positive definiteness:
+\begin{align}
+    &\norm{[x]}_{E / H_0} = 0
+    \\
+    &\inf_{y \in H_0} \norm{ x - y}_E = 0
+    \\
+    &\iff x \in H_0
+    \text{, since $H_0$ is closed}
+    \\
+    &\iff [x] = H_0
+\end{align}
+
+Therefore, the norm exists.
+
+
+Define a function
+\begin{align}
+    g: E / H_0 \to H, g([x]) := f(x)
+\end{align}
+, with $x \in E$.
+
+Let $y \in H_0$ be the closest point to $x \in E$, $ \norm{x - y}_E = \inf_{y \in H_0} \norm{x - y}_E$.
+\begin{align}
+    \therefore \abs{g([x])} 
+    &= \abs{f(x)}
+    \\
+    &= \abs{f(x) - f(y)},
+    \text{ since } f(y) = 0
+    \\
+    &= \abs{f(x - y)}
+    \\
+    &\leq \norm{f} \norm{x -y}_E
+    \\
+    &= \norm{f} \inf_{y \in H_0} \norm{x - y}_E
+    \\
+    &= \norm{f} \norm{[x]}_{E / H_0}
+\end{align}
+, which implies $g$ is bounded, and in turn it is continuous.
+
+With the same variables, we can have
+\begin{align}
+    \norm{[x]}_{E / H_0}
+    &= \inf_{y \in H_0} \norm{x - y}_E
+    \\
+    \norm{x - 0}_E,
+    \text{ since } f(0) = 0
+    \\
+    \norm{x}_E
+\end{align}
+. Thus, the canonical projection map $h: E \to E / H_0, h(x) = [x]$ is also continuous.
+
+Therefore, $f = g \circ h$ is continuous.
+
+\end{proof}
+
+\hrule
+\vspace{0.5em}
+
+% ---------------------------
+% Problem 3
+% ---------------------------
+
+\begin{problem}
+\end{problem}
+% ------------- Solution
+\begin{proof}
+    Let non-zero $x \in Y^c$. $\forall y' \in X$ could be decomposed as $y' = a x + y$, with $a \in \C, y \in Y$.
+
+    For each $y'$, $a$ and $y$ are unique, since if not so, there could be
+    \begin{align}
+        &y' = a_1 x + y_1 = a_2 x + y_2
+        \\
+        &\implies
+        (a_1 - a_2) x =  y_2 - y_1 \in Y
+        \\
+        &\implies x \in Y
+        \text{, which is contradiction.}
+    \end{align}
+
+    Apparently, $a = 0$ for all $y' \in Y$.
+
+    Let norm $\norm{\cdot}$ in $X$ be
+    \begin{align}
+        \norm{y'} := \norm{a x}_1 + \norm{y}_2, \forall y' \in X
+        \\
+        \text{where }
+        y' = a x + y, 
+        x \in Y^c, y \in Y, a \in \C
+    \end{align}
+
+    Thus, when $y' \in Y$,
+    \begin{align}
+        \norm{y'} = \norm{0 x}_1 + \norm{y'}_2 = \norm{y'}_2
+        \\
+        \norm{\cdot}|_Y = \norm{\cdot}_2
+    \end{align}
+    , meaning $\norm{\cdot}$ is equivalent to $\norm{\cdot}_1$ on $Y$ as $\norm{\cdot}_2$ does.
+
+    When $y' \in Y^c$,
+    \begin{align}
+        \norm{y'} = \norm{a x}_1 + \norm{y}_2
+    \end{align}
+
+    Since $\norm{\cdot}_2$ is equivalent to $\norm{\cdot}_1$ on $Y$, $\exists C_1 > 0$
+    \begin{align}
+        C_1^{-1} \norm{y}_1 
+        &\leq \norm{y}_2 
+        \leq C_1 \norm{y}_1
+        \\
+        \therefore 
+        \norm{a x}_1 + C_1 ^ {-1} \norm{y}_1
+        &\leq \norm{a x}_1 + \norm{y}_2
+        \\
+        \therefore 
+        (C_1 + 1)^{-1}(\norm{a x}_1 + \norm{y}_1)
+        &\leq \norm{a x}_1 + \norm{y}_2
+        \\
+        \because
+        \norm{a x + y}_1
+        &\leq \norm{a x}_1 + \norm{y}_1
+        \\
+        \therefore 
+        (C_1 + 1)^{-1}(\norm{a x + y}_1)
+        &\leq \norm{a x}_1 + \norm{y}_2
+        \\
+        \therefore 
+        (C_1 + 1)^{-1}\norm{y'}_1
+        &\leq \norm{y'}
+    \end{align}
+    . Also, $\exists C_2 > 0$
+    \begin{align}
+        C_2^{-1} \norm{y}_2
+        &\leq \norm{y}_1 
+        \leq C_2 \norm{y}_2
+        \\
+        \text{Similarly, we have }
+        (C_2 + 1)^{-1}\norm{y'}
+        &\leq \norm{y'}_1
+        \\
+        \therefore 
+        \norm{y'}
+        &\leq (C_2 + 1) \norm{y'}_1
+        \\
+        \therefore 
+        (C_1 + 1)^{-1}\norm{y'}_1
+        \leq \norm{y'}
+        &\leq (C_2 + 1) \norm{y'}_1
+    \end{align}
+
+    In a whole, $\norm{\cdot}$ is equivalent to $\norm{\cdot}_1$ on $X$ and its restriction to $Y$ is $\norm{\cdot}_2$.
+
+
+\end{proof}
+
+
+\hrule
+\vspace{0.5em}
+
+
+
+\end{document}
