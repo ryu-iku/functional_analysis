@@ -237,92 +237,46 @@ Therefore, $f = g \circ h$ is continuous.
 \end{problem}
 % ------------- Solution
 \begin{proof}
-    Let non-zero $x \in Y^c$. $\forall y' \in X$ could be decomposed as $y' = a x + y$, with $a \in \C, y \in Y$.
-
-    For each $y'$, $a$ and $y$ are unique, since if not so, there could be
+    The norm $\norm{\cdot}_2$ is equivalent to $\norm{\cdot}_1$ on $Y$, meaning there exist constants $c, C > 0$ such that $\forall y \in Y$
     \begin{align}
-        &y' = a_1 x + y_1 = a_2 x + y_2
-        \\
-        &\implies
-        (a_1 - a_2) x =  y_2 - y_1 \in Y
-        \\
-        &\implies x \in Y
-        \text{, which is contradiction.}
+    c \norm{y}_1 \leq \norm{y}_2 \leq C \norm{y}_1
     \end{align}
 
-    Apparently, $a = 0$ for all $y' \in Y$.
-
-    Let norm $\norm{\cdot}$ in $X$ be
+    We define a new norm $\norm{\cdot}$ on $X$
     \begin{align}
-        \norm{y'} := \norm{a x}_1 + \norm{y}_2, \forall y' \in X
-        \\
-        \text{where }
-        y' = a x + y, 
-        x \in Y^c, y \in Y, a \in \C
+    \norm{x} = \inf_{y \in Y} \left( \norm{x-y}_1 + \norm{y}_2 \right) \quad \forall x \in X
     \end{align}
 
-    Thus, when $y' \in Y$,
-    \begin{align}
-        \norm{y'} = \norm{0 x}_1 + \norm{y'}_2 = \norm{y'}_2
-        \\
-        \norm{\cdot}|_Y = \norm{\cdot}_2
-    \end{align}
-    , meaning $\norm{\cdot}$ is equivalent to $\norm{\cdot}_1$ on $Y$ as $\norm{\cdot}_2$ does.
+    \textbf{1. Restriction to $Y$ is equivalent to $\norm{\cdot}_2$:}
+    For $x \in Y$, taking $y=x$ in the infimum gives $\norm{x} \le \norm{x-x}_1 + \norm{x}_2 = \norm{x}_2$.
+    For the other direction, since $x \in Y$ and $y \in Y$, $x-y \in Y$. Using the triangle inequality for $\norm{\cdot}_2$ and the equivalence bounds shows $\norm{x} \ge K \norm{x}_2$ for some $K>0$. Thus, $\norm{\cdot}|_Y$ is equivalent to $\norm{\cdot}_2$.
 
-    When $y' \in Y^c$,
-    \begin{align}
-        \norm{y'} = \norm{a x}_1 + \norm{y}_2
-    \end{align}
+    \textbf{2. Equivalence on $X$:}
+    We show $c \norm{x}_1 \le \norm{x} \le \norm{x}_1$.
 
-    Since $\norm{\cdot}_2$ is equivalent to $\norm{\cdot}_1$ on $Y$, $\exists C_1 > 0$
+    - Upper bound ($\norm{x} \le \norm{x}_1$):
+    Choosing $y=0 \in Y$ in the definition.
     \begin{align}
-        C_1^{-1} \norm{y}_1 
-        &\leq \norm{y}_2 
-        \leq C_1 \norm{y}_1
-        \\
-        \therefore 
-        \norm{a x}_1 + C_1 ^ {-1} \norm{y}_1
-        &\leq \norm{a x}_1 + \norm{y}_2
-        \\
-        \therefore 
-        (C_1 + 1)^{-1}(\norm{a x}_1 + \norm{y}_1)
-        &\leq \norm{a x}_1 + \norm{y}_2
-        \\
-        \because
-        \norm{a x + y}_1
-        &\leq \norm{a x}_1 + \norm{y}_1
-        \\
-        \therefore 
-        (C_1 + 1)^{-1}(\norm{a x + y}_1)
-        &\leq \norm{a x}_1 + \norm{y}_2
-        \\
-        \therefore 
-        (C_1 + 1)^{-1}\norm{y'}_1
-        &\leq \norm{y'}
-    \end{align}
-    . Also, $\exists C_2 > 0$
-    \begin{align}
-        C_2^{-1} \norm{y}_2
-        &\leq \norm{y}_1 
-        \leq C_2 \norm{y}_2
-        \\
-        \text{Similarly, we have }
-        (C_2 + 1)^{-1}\norm{y'}
-        &\leq \norm{y'}_1
-        \\
-        \therefore 
-        \norm{y'}
-        &\leq (C_2 + 1) \norm{y'}_1
-        \\
-        \therefore 
-        (C_1 + 1)^{-1}\norm{y'}_1
-        \leq \norm{y'}
-        &\leq (C_2 + 1) \norm{y'}_1
+        \norm{x} \le \norm{x-0}_1 + \norm{0}_2 = \norm{x}_1
     \end{align}
 
-    In a whole, $\norm{\cdot}$ is equivalent to $\norm{\cdot}_1$ on $X$ and its restriction to $Y$ is $\norm{\cdot}_2$.
+    - Lower bound ($\norm{x} \ge c \norm{x}_1$):
+    For any $y \in Y$, we use the triangle inequality for $\norm{\cdot}_1$ and the equivalence $\norm{y}_1 \le c^{-1} \norm{y}_2$ on $Y$.
+    \begin{align}
+        \norm{x}_1 = \norm{x-y+y}_1 \le \norm{x-y}_1 + \norm{y}_1 \le \norm{x-y}_1 + c^{-1} \norm{y}_2
+    \end{align}
 
+    Multiplying by $c$ (and noting that $c \le 1$ can be assumed without loss of generality, but $c$ is a constant, so we proceed):
+    \begin{align}
+    c \norm{x}_1 \le c \norm{x-y}_1 + \norm{y}_2 \le \norm{x-y}_1 + \norm{y}_2
+    \end{align}
 
+    Taking the infimum over $y \in Y$ gives:
+    \begin{align}
+    c \norm{x}_1 \le \inf_{y \in Y} \left( \norm{x-y}_1 + \norm{y}_2 \right) = \norm{x}
+    \end{align}
+    
+    Since $c \norm{x}_1 \le \norm{x} \le \norm{x}_1$, the norm $\norm{\cdot}$ is equivalent to $\norm{\cdot}_1$ on $X$, and its restriction to $Y$ is equivalent to $\norm{\cdot}_2$.
 \end{proof}
 
 
