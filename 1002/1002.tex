@@ -117,8 +117,9 @@ Hence, $c_0(X)$ is a linear space.
 
 2. $X$ is Banach $\Longrightarrow$ completeness of $c_0(X)$ :
 
-Assume $X$ is a Banach space. Let $(x^{(k)})_{k\in\N}$ be a Cauchy sequence converging to $x$ in $c_0(X)$ with respect to the $\sup$-norm, where $x^{(k)} = (x_1^{(k)}, x_2^{(k)}, \ldots)$.
+Assume $X$ is a Banach space. Let $(x^{(k)})_{k\in\N}$ be a Cauchy sequence in $c_0(X)$ with respect to the $\sup$-norm, where $x^{(k)} = (x_1^{(k)}, x_2^{(k)}, \ldots)$, and let it converge to $x$.
 
+Since the sequence is Cauchy, we have
 $$
 \forall \epsilon > 0, \exists k > N \text{ s.t. } 
 \norm{x^{(k)} - x} < \epsilon, 
@@ -126,17 +127,49 @@ $$
 
 \begin{gather}
 \therefore \epsilon > \norm{x^{(k)} - x}
-= \sup_{n\in\N} \norm{x_n^{(k)} - x_n}
-\\
-\therefore \norm{x_n^{(k)} - x_n} < \epsilon
-\\
-\therefore \norm{x_n}_{X} \leq \norm{x_n - x_n^{(K)}}_{X} + \norm{x_n^{(K)}}_{X} < \epsilon + \norm{x_n^{(K)}}_{X}
+= \sup_{n\in\N} \norm{x_n^{(k)} - x_n}_{X}
 \end{gather}
 
-Since $x^{(K)} \in c_0(X)$, $\lim_{n\to\infty} \norm{x_n^{(K)}}_{X} = 0$. Therefore, there exists $N \in \N$ such that for all $n \geq N$, $\norm{x_n^{(K)}}_{X} < \epsilon$.
-Hence, for $n \geq N$:
-$$\norm{x_n}_{X} \leq \epsilon + \epsilon = 2\epsilon$$
-Since $\epsilon > 0$ was arbitrary, this proves $\lim_{n\to\infty} \norm{x_n}_{X} = 0$, so $x \in c_0(X)$.
+Thus, $\forall m \in \N$,
+\begin{gather}
+\norm{x_m^{(k)} - x_m}_X
+\leq \sup_{n\in\N} \norm{x_n^{(k)} - x_n}_{X}
+< \epsilon
+\end{gather}
+
+With trianglar inequality, we have
+\begin{gather}
+\norm{x_m}_{X} 
+\leq \norm{x_m - x_m^{(k)}}_{X} + \norm{x_m^{(k)}}_{X}
+\end{gather}
+
+From (6), we have
+\begin{gather}
+\norm{x_m^{(k)} - x_m}_X + \norm{x_m^{(k)}}_{X} 
+< \epsilon + \norm{x_m^{(k)}}_{X}
+\end{gather}
+
+Get (7) and (8) togeter, wa have
+\begin{gather}
+\norm{x_m}_{X}
+< \epsilon + \norm{x_m^{(k)}}_{X}
+\end{gather}
+
+Since $x^{(k)} \in c_0(X)$, $\lim_{n\to\infty} \norm{x_n^{(k)}}_{X} = 0$. 
+Therefore, there exists $N \in \N$ such that for all $n \geq N$, $\norm{x_n^{(k)}}_{X} < \epsilon$.
+
+Hence, for $l \geq N$ with (9)
+\begin{gather}
+\norm{x_l}_{X} 
+\leq \epsilon + \norm{x_l^{(k)}}_{X} 
+= 2\epsilon
+\end{gather}
+
+Since $\epsilon > 0$ was arbitrary, this proves 
+\begin{gather}
+\lim_{l\to\infty} \norm{x_l}_{X} = 0
+\end{gather}
+, so $x \in c_0(X)$.
 Since every Cauchy sequence in $c_0(X)$ converges to an element in $c_0(X)$, the space $c_0(X)$ is Banach.
 \end{proof}
 
