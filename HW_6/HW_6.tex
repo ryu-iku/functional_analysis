@@ -1,0 +1,340 @@
+\documentclass{article}
+\usepackage{amsmath, amssymb, amsthm}
+\usepackage{geometry}
+\geometry{a4paper, margin=1in}
+
+\DeclareMathOperator{\esssup}{ess\,sup}
+\newcommand{\norm}[1]{\left\|#1\right\|}
+\newcommand{\abs}[1]{\left|#1\right|}
+\newcommand{\set}[1]{\left\{#1\right\}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\C}{\mathbb{C}}
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\ellp}{\ell^p}
+\newcommand{\ellq}{\ell^q}
+\newcommand{\ip}[2]{\left\langle #1, #2 \right\rangle}
+
+\newtheorem{problem}{Problem}
+
+\begin{document}
+
+\begin{center}
+    \textbf{\Large Functional Analysis - Homework 6}
+\end{center}
+
+\hrule
+\vspace{0.5em}
+
+% ---------------------------
+% Problem 1
+% ---------------------------
+\begin{problem}
+    
+    Let $ X $ and $ Y $ be Banach spaces, and let $ T : D \subset X \to Y $ be a linear operator with closed graph.  
+    Show that the following two statements are equivalent:
+    \begin{itemize}
+        \item[(a)] $ T $ is injective and $ T(D) $ is closed in $ Y $.
+        \item[(b)] $ \exists C > 0 $ such that $\norm{x}_X \le C \norm{Tx}_Y \qquad \forall x \in D.$
+    \end{itemize}
+\end{problem}
+% ------------- Solution
+\begin{proof}
+
+    \subsection*{(b) $\implies$ (a)}
+
+    Let $x_1, x_2 \in X$ and set $Tx_1 = Tx_2$. We have
+    \begin{align}
+        &\norm{x_1 - x_2}_X 
+        \le C \norm{T(x_1 - x_2)}_Y
+        = C \norm{Tx_1 - Tx_1}_Y
+        = 0
+        \\
+        &\therefore x_1 - x_2 = 0
+        \\
+        &\therefore x_1 = x_2
+    \end{align}
+
+    Thus $ T $ is injective.
+
+    Next, we prove that $ T(D) $ is closed.
+    Let $ y_n = T x_n \in T(D) $ be a sequence such that $ y_n \to y $ in $ Y $.
+    Then, $\forall \epsilon > 0, \exists m,n > N$, such that $\norm{y_n - y_m}_Y < \frac{\epsilon}{C}$, then we have
+    \begin{align}
+        \norm{x_n - x_m}_X 
+        \le C \norm{T x_n - T x_m}_Y 
+        = C \norm{y_n - y_m}_Y
+        < \epsilon
+    \end{align}
+    so $ (x_n) $ is Cauchy in $ X $. Since $ X $ is Banach, there exists $ x \in X $ with $ x_n \to x $.
+    Because the graph of $ T $ is closed and $ T x_n \to y $, we have $ (x, y) $ in the graph of $ T $,
+    so $ x \in D $ and $ T x = y $. Thus $ y \in T(D) $, so $ T(D) $ is closed.
+
+    \bigskip
+
+    \subsection*{(a) $\Rightarrow$ (b)}
+    With the assumption that $ T $ is injective we can define the inverse operator
+    \begin{align}
+        S := T^{-1} : T(D) \to D \subset X.
+    \end{align}
+    Since $ T(D) $ is a closed subspace of a Banach space $ Y $, it is also a Banach space.
+
+    Let $ y_n = T x_n \to y $ in $ T(D) $ and $ S y_n = x_n \to x $ in $ X $. 
+    Since $ T $ has closed graph, $ (x, y) $ is in the graph of $ T $,
+    so $ y = T x $. Therefore $ (y, x) $ is in the graph of $ S $, hence the graph of $ S $ is closed.
+
+    Let graph 
+    \begin{align}
+        Gr(S) = \{(y, x) \in Y \times X: x = Sy \}
+    \end{align}
+    with a norm 
+    \begin{align}
+        \norm{(y, x)} = \norm{y}_Y + \norm{x}_X. 
+    \end{align}
+
+    Since $X$ and $Y$ are Banach, $Gr(S)$ is Banach as well.
+
+    Define projections, $\forall x \in X, y \in Y$
+    \begin{align}
+        \pi_1(y, x) = y
+        \\
+        \pi_2(y, x) = x
+    \end{align}.
+
+    $\pi_1$ is bounded since $\norm{y}_Y \le \norm{(y, x)} = \norm{y}_Y + \norm{x}_X$. It is bijective as well. With the open mapping theorem, for any open set $O \subset Y \times X$, $\pi_1(O) \subset Y $, which implies $\pi_1^{-1}$ is continuous.
+
+    Similar to $\pi_1$, $\pi_2$ is also bounded and continuous.
+    Thus, $ S = \pi_2 \circ \pi_1^{-1} $ is continuous and bounded. 
+
+    That is, there exists $ C > 0 $ such that
+    \begin{align}
+    \norm{S y}_X \le C \norm{y}_Y \qquad \forall y \in T(D)
+    \\
+    \implies
+    \norm{x}_X \le C \norm{Tx}_Y \qquad \forall x \in D
+    \end{align}
+    which is (b).
+
+\end{proof}
+
+\hrule
+\vspace{0.5em}
+
+% ---------------------------
+% Problem 2
+% ---------------------------
+
+\begin{problem}
+    Let $(X, \|\cdot\|)$ be an infinite-dimensional normed space. Let $Y \subset X$ be bounded.  
+    Assume that the boundary $\partial Y$ is compact.  
+    Prove that $ int(Y) = \emptyset$.
+\end{problem}
+% ------------- Solution
+\begin{proof}
+
+    Assume for contradiction that $int(Y) \neq \emptyset$.  
+    Then there exists a point $x_0 \in X$ and $r > 0$ such that the open ball $ B(x_0, r) \subset Y$.
+    
+    For each $u\in S:=\{v\in X:\norm{v}=1\}$ define
+    \begin{align}
+        t(u):=\sup\{t\ge0:\; x_0+t u\in Y\}.
+    \end{align}
+    Since $B(x_0,r)\subset Y$ we have $t(u)\ge r>0$ for all $u$, and because $Y$ is bounded each $t(u)$ is finite.
+    Set
+    \begin{align}
+        f(u):=x_0+t(u)u,
+        \\
+        V:=\{f(u):u\in S\}\subset\partial Y.
+    \end{align}
+
+    \textbf{Injectivity.} If $f(u)=f(v)$ then $t(u)u=t(v)v$. As $t(u),t(v)>0$ this forces $u=v$, so $f$ is injective. Thus $f:S\to V$ is a bijection.
+
+    \textbf{Continuity of the inverse.} For $y\in V$ we have $y-x_0\neq0$ and
+    \begin{align}
+        f^{-1}(y)=\frac{y-x_0}{\|y-x_0\|}\in S,
+    \end{align}
+    which is a continuous map on $V$. Hence $f^{-1}:V\to S$ is continuous.
+
+    \textbf{Continuity of $f$.} Let $u_n\to u$ in $S$ and $y_n:=f(u_n) \in \partial Y$. Since $\partial Y$ is compact, $\{y_n\}$ has a convergent subsequence $y_{n_k}\to y \in \partial Y$. Thus,
+    \begin{align}
+        \frac{y_{n_k}-x_0}{\|y_{n_k}-x_0\|}=u_{n_k}\to u,
+    \end{align}
+    so the limit satisfies $\dfrac{y-x_0}{\|y-x_0\|}=u$. 
+    
+    By definition of $t(u)$ we have $y=x_0+t(u)u=f(u)$. 
+    Thus every convergent subsequence of $\{y_n\}$ converges to $f(u)$, so the whole sequence $y_n \to f(u)$. 
+    
+    Therefore, $f$ is sequentially continuous, and in turn it is continuous.
+
+    Combining bijectivity, continuity of $f$, and continuity of $f^{-1}$, we have that $f:S\to V$ is a homeomorphism.
+
+    Since $S$ is not compact as a unit sphere in an infinite-dimensional normed space, $V$ is not compact.
+    
+    But $V\subset\partial Y$ and $\partial Y$ was assumed compact, a contradiction. Hence $\operatorname{int}Y=\emptyset$.
+
+\end{proof}
+
+\hrule
+\vspace{0.5em}
+
+% ---------------------------
+% Problem 3
+% ---------------------------
+
+\begin{problem}
+    Let $(X, \|\cdot\|_X)$ be a finite-dimensional normed space with $\dim(X)=d$. Let $x \in X$ and $(x_n)_{n\in\mathbb{N}}$ be a sequence in $X$. Prove that weak convergence $x_n \xrightarrow{w} x$ for $n \to \infty$ implies that $\norm{x_n - x}_X \to 0$ for $n \to \infty$.
+\end{problem}
+% ------------- Solution
+\begin{proof}
+    % Let $Y = X$ be a $d$-dimensional normed space over the scalar field $\mathbb{K}$ ($\mathbb{R}$ or $\mathbb{C}$).
+
+    Since $\dim(X) = d < \infty$, $X$ has a basis $\mathcal{B} = \{e_1, e_2, \dots, e_d\}$.
+
+    Any vector $x \in X$ can be uniquely represented by its coordinates $x = \sum_{i=1}^d \alpha_i e_i$, where $\alpha_i \in \mathbb{K}$. Similarly, for the sequence, $x_n = \sum_{i=1}^d \alpha_i^{(n)} e_i$.
+    
+    For each basis vector $e_i$, let the $i$-th element of the dual basis $\phi_i \in X^*$ defined by $\phi_i(e_j) = \delta_{ij}$. Thus,
+    \begin{align}
+        \phi_i(x) 
+        = \phi_i\left(\sum_{j=1}^d \alpha_j e_j\right) 
+        = \alpha_i
+    \end{align}
+    
+    In a finite-dimensional space, every linear functional is continuous, so $\phi_i \in X^*$.
+    
+    $x_n \xrightarrow{w} x$ means
+    \begin{align}
+        &\lim_{n\to\infty} f(x_n) = f(x) \qquad \forall f \in X^*
+        \\
+        &\therefore \lim_{n\to\infty} \phi_i(x_n) 
+        = \phi_i(x) 
+        \\
+        &\therefore \lim_{n\to\infty} \alpha_i^{(n)} 
+        = \alpha_i
+    \end{align}
+
+    % This establishes that weak convergence is equivalent to coordinate-wise convergence.
+    
+    Since $X$ is finite-dimensional, all norms on $X$ are equivalent. Specifically, $\norm{\cdot}_X$ is equivalent to the $L^1$ norm:
+    \begin{align}
+        \norm{x}_1 
+        = \left\| \sum_{i=1}^d \alpha_i e_i \right\|_1 
+        := \sum_{i=1}^d |\alpha_i|
+    \end{align}
+    
+    The equivalence of norms implies that there exists a constant $C > 0$ such that for any vector $v \in X$, $\norm{v}_X \le C \norm{v}_1$.
+    
+    Apply this equivalence, we can have
+    \begin{align}
+        &\norm{x_n - x}_X 
+        = \norm{\sum_{i=1}^d (\alpha_i^{(n)} - \alpha_i) e_i}
+        \le C \sum_{i=1}^d |\alpha_i^{(n)} - \alpha_i|
+        \\
+        &\therefore
+        \lim_{n\to\infty} \norm{x_n - x}_X 
+        \le \lim_{n\to\infty} \left( C \sum_{i=1}^d |\alpha_i^{(n)} - \alpha_i| \right)
+        \\
+        &\therefore
+        \lim_{n\to\infty} \norm{x_n - x}_X 
+        \le C \sum_{i=1}^d \left( \lim_{n\to\infty} |\alpha_i^{(n)} - \alpha_i| \right)
+    \end{align}
+    
+    From (19), we know $\lim_{n\to\infty} |\alpha_i^{(n)} - \alpha_i| = 0$. Therefore,
+    \begin{align}
+        &\lim_{n\to\infty} \norm{x_n - x}_X 
+        \le C \sum_{i=1}^d 0 
+        = 0
+        \\
+        &\therefore
+        \lim_{n\to\infty} \norm{x_n - x}_X = 0
+    \end{align}
+    , which is $\norm{x_n - x}_X \to 0$ for $n \to \infty$.
+\end{proof}
+
+
+\hrule
+\vspace{0.5em}
+
+
+% ---------------------------
+% Problem 4
+% ---------------------------
+
+\begin{problem}
+    Let $(X, \norm{\cdot}_X)$ and $(Y, \norm{\cdot}_Y)$ be Banach spaces, and let $T: X \to Y$ be a linear operator. Prove the equivalence of the following statements:
+    \begin{enumerate}
+        \item[(a)] $T$ is continuous.
+        \item[(b)] Given a sequence $(x_{n})_{n\in\mathbb{N}}$ in X, if $x_{n} \xrightarrow{w} x$ in $X$ then $Tx_{n} \xrightarrow{w} Tx$ in $Y$.
+    \end{enumerate}
+\end{problem}
+% ------------- Solution
+\begin{proof}
+
+    \subsection*{(a) $\implies$ (b)}
+    Assume $T$ is continuous (i.e., bounded). Let $(x_n)$ be a sequence such that $x_n \xrightarrow{w} x$ in $X$.
+
+    % We must show that $Tx_n \xrightarrow{w} Tx$ in $Y$, which means that for every continuous linear functional $g \in Y^*$, $\lim_{n \to \infty} g(Tx_n) = g(Tx)$.
+
+    Let $g \in Y^*$, meaning it is a continuous linear functional on $Y$.
+
+    Let $f = g \circ T: X \to \mathbb{K}$, defined by $f(z) = g(Tz)$.
+    $f$ is linear and continuous, as $T$ and $g$ are linear and continuous.
+    Thus, $f \in X^*$.
+
+    Since $x_n \xrightarrow{w} x$ in $X$, by the definition of weak convergence, we have
+    \begin{align}
+        \lim_{n \to \infty} f(x_n) = f(x)
+        \\
+        \therefore
+        \lim_{n \to \infty} g(Tx_n) = g(Tx)
+    \end{align}
+    Since this holds for every $g \in Y^*$, we conclude that $Tx_n \xrightarrow{w} Tx$ in $Y$.
+
+
+
+    \subsection*{(b) $\implies$ (a)}
+
+    Let $g \in Y^*$ with $\norm{g}_{Y^*} = 1$,
+    and $F = \{f_g = g \circ T : g \in Y^*, \norm{g}_{Y^*} = 1\}$.
+
+    For fixed $x \in X, \forall f_g \in F$, $|f_g(x)|$ is bounded because 
+    \begin{align}
+        |f_g(x)| = |g(Tx)| 
+        \le \norm{g}_{Y^*} \norm{Tx}_Y 
+        = \norm{Tx}_Y < \infty.
+    \end{align}
+
+    By the statement (b), $\forall g \in Y^*, f_g = g \circ T$ is weakly sequentially continuous.
+    Since $f_g$ is linear, it is continuous and $f_g \in X^*$.
+
+    By the Uniform Boundedness Principle, $F$ is uniformly bounded.
+    \begin{align}
+        \sup_{f_g \in F} \norm{f_g}_{X^*} 
+        < \infty
+        \\
+        \therefore
+        \sup_{\norm{g}_{Y^*}=1} \norm{g \circ T}_{X^*} 
+        < \infty.
+    \end{align}
+    
+    Therefore,
+    \begin{align}
+        \norm{T}
+        &= \sup_{\norm{x}_X = 1} \norm{Tx}_Y 
+        \\
+        &= \sup_{\norm{x}_X = 1} \left( \sup_{\norm{g}_{Y^*} = 1} |g(Tx)| \right)
+        \\
+        &= \sup_{\norm{g}_{Y^*} = 1} \left( \sup_{\norm{x}_X = 1} |(g \circ T)(x)| \right) 
+        \\
+        &= \sup_{\norm{g}_{Y^*} = 1} \norm{g \circ T}_{X^*}
+        % \\
+        < \infty
+    \end{align}
+    , which means $T$ is continuous.
+    
+    \qed
+\end{proof}
+
+
+\hrule
+\vspace{0.5em}
+
+\end{document}
