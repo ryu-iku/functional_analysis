@@ -1,0 +1,270 @@
+\documentclass{article}
+\usepackage{amsmath, amssymb, amsthm}
+\usepackage{geometry}
+\geometry{a4paper, margin=1in}
+
+\DeclareMathOperator{\esssup}{ess\,sup}
+\newcommand{\norm}[1]{\left\|#1\right\|}
+\newcommand{\abs}[1]{\left|#1\right|}
+\newcommand{\set}[1]{\left\{#1\right\}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\C}{\mathbb{C}}
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\ellp}{\ell^p}
+\newcommand{\ellq}{\ell^q}
+\newcommand{\ip}[2]{\left\langle #1, #2 \right\rangle}
+
+\newtheorem{problem}{Problem}
+
+\begin{document}
+
+\begin{center}
+    \textbf{\Large Functional Analysis - Homework 7}
+\end{center}
+
+\hrule
+\vspace{0.5em}
+
+% ---------------------------
+% Problem 1
+% ---------------------------
+\begin{problem}
+
+    
+\end{problem}
+% ------------- Solution
+Let $(X,\|\cdot\|_{X})$ be a Banach space and $X^{*}$ its dual space. The sequence $(f_{n})_{n\in\mathbb{N}} \subset X^{*}$ and $f \in X^{*}$. We denote weak* convergence by $f_{n} \xrightarrow{*} f$.
+
+\subsection*{a)}
+Statement: $f_{n} \xrightarrow{*} f$ if and only if $f_{n}(x)\rightarrow f(x)$ for every $x\in X$.
+
+\begin{proof}
+    ($\Rightarrow$) 
+    
+    Assume $f_{n} \xrightarrow{*} f$.
+    By definition, $f_{n} \xrightarrow{*} f$ means $f_n$ converges to $f$ in the weak* topology $\sigma(X^{*}, X)$. The weak* topology is the coarsest topology on $X^{*}$ that makes every evaluation functional $\hat{x}: X^* \to \mathbb{C}$, defined by $\hat{x}(g) = g(x)$ for a fixed $x \in X$, continuous.
+    A sequence converges in a topology if and only if it converges with respect to every continuous linear functional. Therefore, for every $x \in X$, the continuous functional $\hat{x}$ satisfies:
+    \begin{align}
+        \lim_{n \to \infty} \hat{x}(f_n) = \hat{x}(f) \implies \lim_{n \to \infty} f_n(x) = f(x).
+    \end{align}
+
+    ($\Leftarrow$) 
+
+    Assume $\lim_{n \to \infty} f_{n}(x) = f(x)$ for every $x \in X$.
+    Let $V$ be an arbitrary basic open neighborhood of $f$ in the $\sigma(X^*, X)$ topology. 
+    \begin{align}
+        V = \{ g \in X^* : |g(x_i) - f(x_i)| < \epsilon_i \text{ for } i=1, \dots, k \}
+    \end{align}
+    for some finite set of vectors $\{x_1, \dots, x_k\} \subset X$ and $\epsilon_1, \dots, \epsilon_k > 0$.
+    Since $\lim_{n \to \infty} f_{n}(x_i) = f(x_i)$ for each $i$, for every $\epsilon_i > 0$, there exists $N_i$ such that for all $n > N_i$, $|f_n(x_i) - f(x_i)| < \epsilon_i$.
+    Let $N = \max \{N_1, \dots, N_k\}$. Then for all $n > N$, $f_n$ satisfies all $k$ conditions, meaning $f_n \in V$. Thus, $f_n$ converges to $f$ in the $\sigma(X^*, X)$ topology: $f_{n} \xrightarrow{*} f$.
+\end{proof}
+
+\subsection*{b)}
+
+Statement: If $f_{n} \stackrel{w}{\rightarrow}  f$, then $f_{n} \xrightarrow{*} f$.
+
+\begin{proof}
+    Let \( J : X \to X^{**} \) be the canonical embedding defined by
+    \begin{align}
+        (Jx)(\varphi) = \varphi(x), \quad \forall x \in X, \, \varphi \in X^*.
+    \end{align}
+    Weak convergence \( f_n \xrightarrow{w} f \) in \( X^* \) means
+    \begin{align}
+        f_n(\Phi) \to f(\Phi), \quad \forall \Phi \in X^{**},
+    \end{align}
+    i.e., convergence with respect to the weak topology \( \sigma(X^*, X^{**}) \).
+
+    Since every \( x \in X \) gives an element \( Jx \in X^{**} \), we have, for each \( x \in X \),
+    \begin{align}
+        f_n(x) = f_n(Jx) \longrightarrow f(Jx) = f(x).
+    \end{align}
+    Thus \( f_n(x) \to f(x) \) for every \( x \in X \), which by part (a) meas
+    \begin{align}
+        f_n \xrightarrow{*} f.
+    \end{align}
+
+\end{proof}
+
+
+\subsection*{c)}
+
+Statement: If $f_{n} \xrightarrow{*} f$, then $(f_{n})$ is bounded and $||f||_{X^{*}}\le \liminf_{n \to \infty}||f_{n}||_{X^{*}}$.
+
+\begin{proof}
+    
+    Since $f_{n} \xrightarrow{*} f$, part (a) shows that $\lim_{n \to \infty} f_n(x) = f(x)$ for every $x \in X$.
+    Since every convergent sequence of complex numbers is bounded, for every fixed $x \in X$, the scalar sequence $(f_n(x))$ is bounded:
+    \begin{align}
+        \sup_{n \in \mathbb{N}} |f_n(x)| < \infty
+    \end{align}
+    The sequence of functionals $(f_n)$ is therefore pointwise bounded on $X$. Since $X$ is a Banach space, with the Uniform Boundedness Principle applies, we have:
+    \begin{align}
+        \sup_{n \in \mathbb{N}} \norm{f_n}_{X^{*}} = M < \infty
+    \end{align}
+    Thus, $(f_n)$ is bounded in $X^*$.
+
+    By the definition of the dual norm, for any $x \in X$ with $\norm{x}_X \le 1$:
+    \begin{align}
+        |f_n(x)| 
+        \le \norm{f_n}_{X^{*}} \norm{x}_X 
+        \le \norm{f_n}_{X^{*}}
+    \end{align}
+
+    Taking the limit inferior of both sides of the inequality:
+    \begin{align}
+        \liminf_{n \to \infty} |f_n(x)| \le \liminf_{n \to \infty} \norm{f_n}_{X^{*}}
+    \end{align}
+    Since $f_n(x) \to f(x)$, $\liminf |f_n(x)| = \lim |f_n(x)| = |f(x)|$. Thus:
+    \begin{align}
+        &|f(x)| \le \liminf_{n \to \infty} \norm{f_n}_{X^{*}}
+        \\
+        &\therefore \sup_{\norm{x}_X \le 1} |f(x)| \le \sup_{\norm{x}_X \le 1} \left( \liminf_{n \to \infty} \norm{f_n}_{X^{*}} \right)
+        \\
+        &\therefore \norm{f}_{X^{*}} \le \liminf_{n \to \infty} \norm{f_n}_{X^{*}}
+    \end{align}
+\end{proof}
+
+\subsection*{d)}
+
+Statement: If $f_{n} \xrightarrow{*} f$ and $x_{n} \to x$, then $\langle f_{n}, x_{n} \rangle \rightarrow \langle f, x \rangle$.
+
+\begin{proof}
+    We want to show $\lim_{n \to \infty} |f_n(x_n) - f(x)| = 0$. We use the triangle inequality trick:
+    \begin{align}
+    |f_n(x_n) - f(x)| 
+    = |f_n(x_n) - f_n(x) + f_n(x) - f(x)|
+    \\
+    \le |f_n(x_n) - f_n(x)| + |f_n(x) - f(x)|
+    \end{align}
+
+    For the second term of (15), since $f_{n} \xrightarrow{*} f$ and $x$ is a fixed vector, by part (a):
+    \begin{align}
+        \lim_{n \to \infty} |f_n(x) - f(x)| = 0
+    \end{align}
+
+    For the first term of (15)
+    \begin{align}
+        |f_n(x_n) - f_n(x)| 
+        = |f_n(x_n - x)|
+        \\
+        \le \norm{f_n}_{X^{*}} \|x_n - x\|_X
+    \end{align}
+    
+    From part (c), we know that if $f_{n} \xrightarrow{*} f$, the sequence of norms is uniformly bounded:
+    \begin{align}
+        &\sup_{n \in \mathbb{N}} \norm{f_n}_{X^{*}} = M < \infty
+    \end{align}
+    Therefore,
+    \begin{align}
+        \lim_{n \to \infty} |f_n(x_n) - f_n(x)| 
+        &\le \lim_{n \to \infty} (\norm{f_n}_{X^{*}} \|x_n - x\|_X) 
+        \\
+        &\le M \cdot \lim_{n \to \infty} \|x_n - x\|_X
+    \end{align}
+    
+    Since $x_{n} \to x$, $\lim_{n \to \infty} \|x_n - x\|_X = 0$.
+    \begin{align}
+    0 \le \lim_{n \to \infty} |f_n(x_n) - f_n(x)| \le M \cdot 0 = 0
+    \end{align}
+
+    Thus, both terms in (15) converge to 0. Then,
+    \begin{align}
+        \lim_{n \to \infty} |f_n(x_n) - f(x)| = 0
+    \end{align}
+    , which means
+    $
+    \langle f_{n}, x_{n} \rangle \rightarrow \langle f, x \rangle
+    $.
+\end{proof}
+
+
+\hrule
+\vspace{0.5em}
+
+% ---------------------------
+% Problem 2
+% ---------------------------
+
+\begin{problem}
+    Let $(X,||\cdot||_{X})$ be a Banach space and $X^{*}$ its dual. Given sequences $(x_{n})_{n} \subset X$ and $(f_{n})_{n} \subset X^{*}$. If $f_{n} \xrightarrow{*} f$ and $x_{n}\xrightarrow{w} x$, then $\langle f_{n},x_{n}\rangle\rightarrow\langle f,x\rangle.$
+\end{problem}
+% ------------- Solution
+
+\vspace{0.5em}
+
+The statement is false.
+
+We give a counterexample in $l^2$.
+
+Consider the Banach space $X = l^2(\mathbb{N})$, which is a Hilbert space and therefore reflexive, so $X^* = l^2$.
+The pairing is given by $\langle f, x \rangle = \sum_{k=1}^\infty f_k x_k$.
+
+Let $(e_n)$ be the standard basis vectors, where $e_n$ has a $1$ in the $n$-th position and $0$ elsewhere.
+
+Let $x_n = e_n$.
+With $x_{n}\xrightarrow{w} x$: For any $f = (f_k) \in l^2$, we have $\langle f, x_n \rangle = f_n$. Since $f \in l^2$, $f_n \rightarrow 0$ as $n \rightarrow \infty$.
+Thus, $x_n \to 0$, so $x = 0$.
+
+Next, we analysis the function sequence.
+Let $f_n = e_n$. Note that $f_n \in X^*$.
+With $f_{n} \xrightarrow{*} f$, for any $x = (x_k) \in l^2 = X$, we have $\langle f_n, x \rangle = x_n$. Since $x \in l^2$, $x_n \rightarrow 0$ as $n \rightarrow \infty$.
+Thus, $f_n \stackrel{w^*}{\rightarrow} 0$, so $f = 0$.
+
+
+We check the limit of the sequence of pairings $\langle f_{n}, x_{n} \rangle$:
+\begin{align}
+    \lim_{n\to\infty} \langle f_{n}, x_{n} \rangle = \lim_{n\to\infty} \langle e_n, e_n \rangle = \lim_{n\to\infty} (1) = 1.
+\end{align}
+The claimed limit is the pairing of the weak limits:
+\begin{align}
+    \langle f, x \rangle = \langle 0, 0 \rangle = 0.
+    \\
+    \therefore
+    \langle f_{n}, x_{n} \rangle \not\rightarrow \langle f, x \rangle.
+\end{align}
+
+
+\hrule
+\vspace{0.5em}
+
+% ---------------------------
+% Problem 3
+% ---------------------------
+\begin{problem}
+\end{problem}
+% ------------- Solution
+\begin{proof}
+
+% The key result in functional analysis we use is Kakutani's Theorem (a consequence of the Banach-Alaoglu Theorem): a Banach space $X$ is reflexive if and only if its closed unit ball $B_X = \{x \in X : \norm{x} \le 1\}$ is compact in the weak topology $\sigma(X, X^*)$.
+
+The map $T: E \to F$ is a linear surjective isometry. Thus, we have: $\|T(x)\|_F = \norm{x}_E$ for all $x \in E$.
+
+Therefore, $T$ is injective (since $\|T(x)\|_F = 0 \iff \norm{x}_E = 0 \iff x=0$), and then $T$ is a bijection. 
+
+Its inverse $T^{-1}: F \to E$ also exists and is a linear isometry. Hense, both $T$ and $T^{-1}$ are bounded operators with operator norms $\|T\| = 1$ and $\|T^{-1}\| = 1$.
+
+\subsection*{$E$ is Reflexive $\implies$ $F$ is Reflexive}
+
+Since $T$ is an isometry, $T$ maps the closed unit ball of $E$ onto the closed unit ball of $F$:
+$T(B_E) = B_F$
+
+Since $E$ is reflexive, its closed unit ball $B_E$ is $\sigma(E, E^*)$-compact.
+
+Since $T$ is norm-continuous, it is weakly continuous, as a linear map between normed spaces is norm-continuous if and only if it is weakly continuous.
+
+Since $B_E$ is $\sigma(E, E^*)$-compact and $T$ is weakly continuous, the image $T(B_E) = B_F$ must be $\sigma(F, F^*)$-compact, as the continuous image of a compact set is compact. 
+
+Thus, $B_F$ is weakly compact in $F$. Therefore, $F$ is reflexive.
+
+\subsection*{$F$ is Reflexive $\implies$ $E$ is Reflexive}
+
+As we have shown that $T^{-1}$ is also a linear isometry. With the same process of the previous part, $F$ is reflexive $\implies$ $E$ is reflexive.
+
+\end{proof}
+
+
+\hrule
+\vspace{0.5em}
+
+\end{document}
