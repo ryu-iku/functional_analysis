@@ -1,0 +1,317 @@
+\documentclass{article}
+\usepackage{amsmath, amssymb, amsthm}
+\usepackage{geometry}
+\geometry{a4paper, margin=1in}
+
+\DeclareMathOperator{\esssup}{ess\,sup}
+\newcommand{\norm}[1]{\left\|#1\right\|}
+\newcommand{\abs}[1]{\left|#1\right|}
+\newcommand{\set}[1]{\left\{#1\right\}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\C}{\mathbb{C}}
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\ellp}{\ell^p}
+\newcommand{\ellq}{\ell^q}
+\newcommand{\ip}[2]{\left\langle #1, #2 \right\rangle}
+
+\newtheorem{problem}{Problem}
+
+\begin{document}
+
+\begin{center}
+    \textbf{\Large Functional Analysis - Homework 8}
+\end{center}
+
+\hrule
+\vspace{0.5em}
+
+% ---------------------------
+% Problem 1
+% ---------------------------
+\begin{problem}
+\end{problem}
+% ------------- Solution
+
+To show the inequality, for \( 2 \le p < \infty \),
+\begin{align}
+\left|\frac{a+b}{2}\right|^{p} + \left|\frac{a-b}{2}\right|^{p}
+    \le \frac{1}{2}\left(|a|^{p} + |b|^{p}\right).
+\end{align}
+, it is sufficient to prove the real-variable inequality for \( t \in [0,1] \):
+\begin{align}
+\left(\frac{1+t}{2}\right)^{p} + \left(\frac{1-t}{2}\right)^{p}
+    \le \frac{1+t^{p}}{2}.
+\end{align}
+
+Define the function \( f(t) \) on \( [0,1] \) by
+\begin{align}
+f(t) = \frac{1}{2}\left(1 + t^{p}\right)
+       - \left[
+           \left(\frac{1+t}{2}\right)^{p}
+           + \left(\frac{1-t}{2}\right)^{p}
+         \right].
+\end{align}
+We aim to show that \( f(t) \ge 0 \).
+
+At \( t = 1 \):
+\begin{align}
+f(1)
+    &= \frac{1}{2}(1 + 1) - \left[ 1^{p} + 0^{p} \right] \notag \\
+    &= 1 - 1 = 0.
+\end{align}
+
+At \( t = 0 \):
+\begin{align}
+f(0)
+    &= \frac{1}{2}(1) - \left[ 2^{-p} + 2^{-p} \right] \notag \\
+    &= \frac{1}{2} - 2^{-(p-1)}.
+\end{align}
+Since \( p \ge 2 \) implies \( 2^{-(p-1)} \le \tfrac{1}{2} \),
+it follows that \( f(0) \ge 0 \).
+
+\begin{align}
+f'(t)
+    = \frac{p}{2}t^{p-1}
+        - p\,2^{-p}\!\left[(1+t)^{p-1} - (1-t)^{p-1}\right].
+\end{align}
+We verify that \( f'(1) = 0 \):
+\begin{align}
+f'(1)
+    &= \frac{p}{2} - p\,2^{-p}\left[2^{p-1} - 0\right] \notag \\
+    &= \frac{p}{2} - \frac{p}{2} = 0.
+\end{align}
+
+\begin{align}
+f''(t)
+    = \frac{p(p-1)}{2}
+        \left[
+        t^{p-2}
+        - 2^{-(p-1)}\!\left((1+t)^{p-2} + (1-t)^{p-2}\right)
+        \right].
+\end{align}
+
+The function \(\psi(s)=s^{p-2}\) is convex on \([0,\infty)\) when \(p\ge 2\)
+(since \(p-2\ge 0\)). Set
+\[
+x_1=\frac{1+t}{2},\qquad x_2=\frac{1-t}{2},
+\]
+so that \(x_1,x_2\in[0,1]\) and \(x_1+x_2=1\). Writing \(t = x_1-x_2\) and using the convexity
+of \(\psi\) together with the evenness of the power \((\cdot)^{p-2}\), one obtains the pointwise
+inequality (for \(t\in[0,1]\))
+\begin{align}
+    t^{\,p-2} \le 2^{-(p-1)}\bigl((1+t)^{p-2} + (1-t)^{p-2}\bigr),
+\end{align}
+which implies \(f''(t)\le 0\) for \(t\in[0,1]\) when \(p>2\) (and the boundary case \(p=2\)
+may be checked directly). 
+
+Thus \(f''(t)\le 0\) on \([0,1]\), so \(f\) is concave on \([0,1]\). Since a concave function
+attains its minimum at the boundary, and we already have \(f(0)\ge 0\) and \(f(1)=0\),
+it follows that \(f(t)\ge 0\) for all \(t\in[0,1]\).
+
+Hence, the scalar inequality is proven.
+By integrating this result over the measure space
+\( (\Omega, \mathcal{F}, \mu) \), we obtain
+\begin{align}
+\int_{\Omega}
+\left[
+\left|\frac{f(x)+g(x)}{2}\right|^{p}
++
+\left|\frac{f(x)-g(x)}{2}\right|^{p}
+\right] d\mu
+&\le
+\int_{\Omega}
+\frac{1}{2}\left(|f(x)|^{p} + |g(x)|^{p}\right) d\mu, \\
+\left\|\frac{f+g}{2}\right\|_{L_{p}(\mu)}^{p}
++
+\left\|\frac{f-g}{2}\right\|_{L_{p}(\mu)}^{p}
+&\le
+\frac{1}{2}\left(\|f\|_{L_{p}(\mu)}^{p} + \|g\|_{L_{p}(\mu)}^{p}\right).
+\end{align}
+
+This inequality implies that
+\( L_{p}(\mu) \) is uniformly convex for \( p \ge 2 \).
+
+
+\hrule
+\vspace{0.5em}
+
+% ---------------------------
+% Problem 2
+% ---------------------------
+
+\begin{problem}
+
+\end{problem}
+% ------------- Solution
+
+\begin{enumerate}
+\item[\textbf{(1)}] \textbf{T is an isometry:} \(\|Tf\|_{(L_q)^*} = \|f\|_{L_p}\).
+
+By definition,
+\begin{align}
+\|Tf\|_{(L_q)^*}
+= \sup_{\|g\|_{L_q} \le 1} |\langle Tf, g \rangle|
+= \sup_{\|g\|_{L_q} \le 1} \left|\int fg \, d\mu\right|.
+\end{align}
+Hölder’s inequality gives
+\begin{align}
+\left|\int fg\,d\mu\right|
+\le \|f\|_{L_p}\|g\|_{L_q},
+\end{align}
+so \(\|Tf\|_{(L_q)^*} \le \|f\|_{L_p}\).
+
+For equality, assume \(f \neq 0\) and set
+\begin{align}
+g_0(x) = sgn(f(x))\left(\frac{|f(x)|}{\|f\|_{L_p}}\right)^{p-1}.
+\end{align}
+Then
+\begin{align}
+\|g_0\|_{L_q}^q
+= \int |g_0|^q \, d\mu
+= \frac{1}{\|f\|_{L_p}^{p}} \int |f|^{p} \, d\mu = 1,
+\end{align}
+so \(\|g_0\|_{L_q} = 1\). Moreover,
+\begin{align}
+\langle Tf, g_0 \rangle
+= \int f g_0 \, d\mu
+= \frac{1}{\|f\|_{L_p}^{p-1}} \int |f|^p \, d\mu
+= \|f\|_{L_p}.
+\end{align}
+Hence \(\|Tf\|_{(L_q)^*} = \|f\|_{L_p}\); thus \(T\) is an isometry.
+
+\item[\textbf{(2)}] \textbf{\(T(L_p)\) is closed in \((L_q)^*\).}
+
+Let \(\{Tf_n\}\) be a Cauchy sequence in \(T(L_p)\).
+Since \(T\) is an isometry,
+\begin{align}
+\|Tf_n - Tf_m\|_{(L_q)^*} = \|f_n - f_m\|_{L_p},
+\end{align}
+so \(\{f_n\}\) is Cauchy in \(L_p\).
+Because \(L_p\) is complete, \(f_n \to f \in L_p\), and by continuity of \(T\),
+\begin{align}
+Tf_n \to Tf.
+\end{align}
+Thus the limit lies in \(T(L_p)\), proving that \(T(L_p)\) is closed in \((L_q)^*\).
+
+\item[\textbf{(3)}] \textbf{\(L_p\) is reflexive for \(1 < p \le 2\).}
+
+For \(1 < p \le 2\), we have \(q \ge 2\).
+By Clarkson’s inequality, \(L_q(\mu)\) is uniformly convex for \(q \ge 2\).
+ Since every uniformly convex Banach space is reflexive, it is reflexive.
+
+A dual space is reflexive if and only if its predual is reflexive,
+so \((L_q)^*\) is reflexive.
+
+Closed subspaces of reflexive spaces are reflexive; thus \(T(L_p)\) is reflexive.
+Since \(T\) is an isometric isomorphism between \(L_p\) and \(T(L_p)\),
+it follows that \(L_p\) itself is reflexive.
+
+
+\end{enumerate}
+
+
+\hrule
+\vspace{0.5em}
+
+% ---------------------------
+% Problem 3
+% ---------------------------
+\begin{problem}
+\end{problem}
+% ------------- Solution
+
+a)
+Let $H$ be a Hilbert space with inner product $\langle \cdot,\cdot\rangle$ and norm 
+$\norm{x} = \sqrt{\langle x,x\rangle}$.
+We need to show: for every $\varepsilon \in (0,2]$, there exists $\delta > 0$ such that
+for all $x,y \in H$ with $\norm{x} \le 1$, $\norm{y} \le 1$, and $\norm{x-y} \ge \varepsilon$, such that
+\begin{align}
+    \norm{\frac{x+y}{2}} \le 1 - \delta.
+\end{align}
+
+In Hilbert spaces,
+\begin{align}
+    \norm{x+y}^2 + \norm{x-y}^2 = 2(\norm{x}^2 + \norm{y}^2).
+    \\
+    \norm{\frac{x+y}{2}}^2
+    = \frac{\norm{x}^2 + \norm{y}^2}{2} - \frac{\norm{x-y}^2}{4}.
+\end{align}
+
+Since $\norm{x}, \norm{y} \le 1$, we have
+$\frac{\norm{x}^2 + \norm{y}^2}{2} \le 1$,
+and $\norm{x-y} \ge \varepsilon$ gives
+$-\frac{\norm{x-y}^2}{4} \le -\frac{\varepsilon^2}{4}$.
+
+Thus
+\begin{align}
+    \norm{\frac{x+y}{2}}^2
+    \le 1 - \frac{\varepsilon^2}{4}.
+    \\
+    \norm{\frac{x+y}{2}} \le \sqrt{1 - \frac{\varepsilon^2}{4}}.
+\end{align}
+Set
+\begin{align}
+    \delta = 1 - \sqrt{1 - \frac{\varepsilon^2}{4}} > 0.
+\end{align}
+Then
+\begin{align}
+\norm{\frac{x+y}{2}} \le 1 - \delta,
+\end{align}
+which implies that every Hilbert space is uniformly convex.
+
+
+
+b) \(L_\infty\) is not uniformly convex.
+
+Let $X = L_\infty[0,2]$ with the norm
+$\norm{f}_\infty$ as the  essential supremum,
+and consider the unit ball $B_1 = \{ f \in X : \norm{f}_\infty \le 1 \}$.
+
+Define
+\begin{align}
+x(t) = 1, \qquad
+y(t) = 
+\begin{cases}
+1, & 0 \le t \le 1,\\
+-1, & 1 < t \le 2.
+\end{cases}
+\end{align}
+Then $\norm{x}_\infty = \norm{y}_\infty = 1$, so $x,y \in B_1$.
+Compute:
+\begin{align}
+(x - y)(t) =
+\begin{cases}
+0, & 0 \le t \le 1,\\
+2, & 1 < t \le 2,
+\end{cases}
+\qquad
+\norm{x - y}_\infty = 2.
+\end{align}
+Choose $\varepsilon = 1.9 < 2$, so $\norm{x - y}_\infty > \varepsilon$.
+
+The midpoint satisfies
+\begin{align}
+\frac{x(t) + y(t)}{2} =
+\begin{cases}
+1, & 0 \le t \le 1,\\
+0, & 1 < t \le 2,
+\end{cases}
+\qquad
+\norm{\frac{x+y}{2}}_\infty = 1.
+\end{align}
+Hence, for this pair $x,y$,
+$\norm{x-y}_\infty > \varepsilon$
+but
+$\norm{\frac{x+y}{2}}_\infty = 1$,
+so for any $\delta > 0$,
+$\norm{\frac{x+y}{2}}_\infty \not< 1 - \delta$.
+
+Therefore, no $\delta>0$ satisfies the definition of uniform convexity,
+and $L_\infty$ is not uniformly convex.
+
+
+
+\hrule
+\vspace{0.5em}
+
+\end{document}
