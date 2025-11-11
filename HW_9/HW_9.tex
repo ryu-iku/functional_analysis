@@ -1,0 +1,183 @@
+\documentclass{article}
+\usepackage{amsmath, amssymb, amsthm}
+\usepackage{geometry}
+\geometry{a4paper, margin=1in}
+
+\DeclareMathOperator{\esssup}{ess\,sup}
+\newcommand{\norm}[1]{\left\|#1\right\|}
+\newcommand{\abs}[1]{\left|#1\right|}
+\newcommand{\set}[1]{\left\{#1\right\}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\C}{\mathbb{C}}
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\ellp}{\ell^p}
+\newcommand{\ellq}{\ell^q}
+\newcommand{\ip}[2]{\left\langle #1, #2 \right\rangle}
+\newcommand{\re}{\operatorname{Re}}
+\newcommand{\dist}{\operatorname{dist}}
+\newcommand{\Res}{\operatorname{Res}}
+
+\newtheorem{problem}{Problem}
+
+\begin{document}
+
+\begin{center}
+    \textbf{\Large Functional Analysis - Homework 9}
+\end{center}
+
+\hrule
+\vspace{0.5em}
+
+% ---------------------------
+% Problem 1
+% ---------------------------
+\begin{problem}
+Let $H$ be a Hilbert space and let $K\subset H$ be a non-empty closed convex set.
+\begin{enumerate}
+    \item[a)] Prove that for every $f\in H$ there exists an element $u\in K$ such that $\norm{f-u}=\min_{v\in K}\norm{f-v}=\text{dist}(f,K)$.
+    \item[b)] Prove that (a) is equivalent to the property: $\re\ip{f-u}{v-u} \le 0 \quad \text{for all } v\in K$.
+    \item[c)] Use now (b) to prove the uniqueness of such $u$.
+    \item[d)] Prove that $P_{K}$ is contractive, i.e., $\norm{P_{K}f_{1}-P_{K}f_{2}}\le\norm{f_{1}-f_{2}}$.
+\end{enumerate}
+\end{problem}
+% ------------- Solution
+\subsection*{a)}
+
+Let $(v_n)_{n \in \N} \subset K$ be a minimizing sequence such that $\lim_{n \to \infty} \norm{f - v_n} = \dist(f, K)$.
+
+With the parallelogram equality, for $m, k \in \N$ we have
+\begin{align}
+    \norm{v_m - v_k}^2
+    &= \norm{(f - v_m) - (f - v_k)}^2 \\
+    &= 2 \norm{f- v_m}^2 + 2 \norm{f - v_k}^2 - \norm{(f - v_m) + (f - v_k)}^2 \\
+    &= 2 \norm{f- v_m}^2 + 2 \norm{f - v_k}^2 - 4 \norm{f - \frac{v_m + v_k}{2}}^2
+\end{align}
+Since $K$ is convex, $\frac{v_m + v_k}{2} \in K$, and thus $\norm{f - \frac{v_m + v_k}{2}} \ge \dist(f, K)$.
+\begin{align}
+    \norm{v_m - v_k}^2
+    &\le 2 \norm{f- v_m}^2 + 2 \norm{f - v_k}^2 - 4 \dist(f, K)^2 \\
+    &= 2 \left( \norm{f- v_m}^2 - \dist(f, K)^2 \right) + 2 \left( \norm{f- v_k}^2 - \dist(f, K)^2 \right)
+\end{align}
+Since $\norm{f - v_n} \to \dist(f, K)$, the right-hand side tends to $0$ as $m, k \to \infty$. This implies $(v_n)$ is Cauchy. Because $H$ is complete and $K$ is closed, $(v_n)$ converges to some $u \in K$ which satisfies $\norm{f - u} = \dist(f, K)$.
+
+\subsection*{b)}
+
+Let $\mathbf{(1)}$ be $\norm{f-u} = \min_{v \in K}\norm{f-v}$ and $\mathbf{(2)}$ be $\re\ip{f-u}{v-u} \le 0$ for all $v \in K$.
+
+\paragraph{$\mathbf{(1) \implies (2)}$}
+Assume $u$ satisfies (1). For arbitrary $v \in K$, let $v_t = (1-t)u + tv \in K$ for $t \in [0, 1]$. By the minimization property, $\norm{f-u}^2 \le \norm{f-v_t}^2$.
+\begin{align}
+    \norm{f-u}^2
+    &\le \norm{(f-u) - t(v-u)}^2 \\
+    &= \norm{f-u}^2 - 2t \re\ip{f-u}{v-u} + t^2\norm{v-u}^2 \\
+    \therefore
+    2t \re\ip{f-u}{v-u}
+    &\le t^2\norm{v-u}^2
+\end{align}
+Dividing by $2t$ for $t > 0$ and taking the limit as $t \to 0^+$ yields $\re\ip{f-u}{v-u} \le 0$.
+
+\paragraph{$\mathbf{(2) \implies (1)}$}
+Assume $u$ satisfies (2). For any $v \in K$, we expand $\norm{f-v}^2$:
+\begin{align}
+    \norm{f-v}^2 &= \norm{(f-u) - (v-u)}^2 \\
+    &= \norm{f-u}^2 - 2\re\ip{f-u}{v-u} + \norm{v-u}^2
+\end{align}
+Since $\re\ip{f-u}{v-u} \le 0$ by (2), the term $-2\re\ip{f-u}{v-u} \ge 0$.
+\begin{align}
+    \norm{f-v}^2 \ge \norm{f-u}^2 + \norm{v-u}^2
+\end{align}
+Since $\norm{v-u}^2 \ge 0$, we conclude that $\norm{f-v} \ge \norm{f-u}$, proving (1).
+
+\subsection*{c)}
+Assume $u_1$ and $u_2$ are both minimizers in $K$. By part (b), they must satisfy the inequality (2).
+\begin{itemize}
+    \item $u_1$ is the projection of $f$. Setting $v=u_2$: $\re\ip{f-u_1}{u_2-u_1} \le 0$.
+    \item $u_2$ is the projection of $f$. Setting $v=u_1$: $\re\ip{f-u_2}{u_1-u_2} \le 0$.
+\end{itemize}
+Using $u_1-u_2 = -(u_2-u_1)$, the second inequality is equivalent to $\re\ip{f-u_2}{u_2-u_1} \ge 0$. Summing the two relations:
+\begin{align}
+    0 &\ge \re\ip{f-u_1}{u_2-u_1} - \re\ip{f-u_2}{u_2-u_1} \\
+    0 &\ge \re\ip{(f-u_1) - (f-u_2)}{u_2-u_1} \\
+    0 &\ge \re\ip{u_2-u_1}{u_2-u_1} \\
+    \norm{u_2-u_1}^2 &\le 0
+\end{align}
+Since the norm squared must be non-negative, $\norm{u_2-u_1}^2 = 0$, which implies $u_1 = u_2$.
+
+\subsection*{d)}
+Let $u_1 = P_K f_1$ and $u_2 = P_K f_2$. With property (b):
+\begin{itemize}
+    \item For $f_1$ and $u_1$: set $v=u_2$. $\re\ip{f_1-u_1}{u_2-u_1} \le 0$.
+    \item For $f_2$ and $u_2$: set $v=u_1$. $\re\ip{f_2-u_2}{u_1-u_2} \le 0$, which implies $-\re\ip{f_2-u_2}{u_2-u_1} \le 0$.
+\end{itemize}
+Summing these two inequalities:
+\begin{align}
+    0 &\ge \re\ip{f_1-u_1}{u_2-u_1} - \re\ip{f_2-u_2}{u_2-u_1} \\
+    0 &\ge \re\ip{(f_1-u_1) - (f_2-u_2)}{u_2-u_1} \\
+    0 &\ge \re\ip{(f_1-f_2) - (u_1-u_2)}{u_2-u_1} \\
+    0 &\ge \re\ip{f_1-f_2}{u_2-u_1} - \re\ip{u_1-u_2}{u_2-u_1} \\
+    \norm{u_2-u_1}^2 &\le \re\ip{f_1-f_2}{u_2-u_1}
+    \le \abs{\ip{f_1-f_2}{u_2-u_1}}
+\end{align}
+Applying the Cauchy-Schwarz inequality, $\abs{\ip{x}{y}} \le \norm{x}\norm{y}$:
+\begin{align}
+    \norm{u_1-u_2}^2 &\le \norm{f_1-f_2}\norm{u_2-u_1}
+\end{align}
+Dividing by $\norm{u_1-u_2}$ (assuming it is non-zero) yields the desired result: $\norm{u_1-u_2} \le \norm{f_1-f_2}$.
+
+\vspace{0.5em}
+\hrule
+\vspace{0.5em}
+
+% ---------------------------
+% Problem 2
+% ---------------------------
+
+\begin{problem}
+\end{problem}
+% ------------- Solution
+With $\overline{x-i} = x+i$ and $\overline{x+i} = x-i$,
+\begin{align}
+    \ip{f_m}{f_n} &= \int_{-\infty}^{\infty} f_m(x)\overline{f_n(x)} dx \\
+    &= \frac{1}{\pi} \int_{-\infty}^{\infty} \frac{(x-i)^{m}}{(x+i)^{m+1}} \frac{(x+i)^{n}}{(x-i)^{n+1}} dx \\
+    &= \frac{1}{\pi} \int_{-\infty}^{\infty} \frac{(x-i)^{m-n-1}}{(x+i)^{m-n+1}} dx
+\end{align}
+Let $g(z) = \frac{1}{\pi} \frac{(z-i)^{m-n-1}}{(z+i)^{m-n+1}}$. We use the Residue Theorem on a semi-circular contour in the upper half-plane. The integral is equal to $2\pi i \sum \Res(g, z_k)$, where $z_k$ are poles in the upper half-plane, and the poles are at $z=\pm i$.
+
+\paragraph{Case 1: $m=n$}
+The integrand simplifies to $g(z) = \frac{1}{\pi} \frac{(z-i)^{-1}}{(z+i)^{1}} = \frac{1}{\pi(z-i)(z+i)}$.
+The only pole in the upper half-plane is a simple pole at $z=i$.
+\begin{align}
+    \Res(g, i) &= \lim_{z \to i} (z-i) g(z) = \lim_{z \to i} \frac{1}{\pi(z+i)} = \frac{1}{\pi(2i)} \\
+    \ip{f_n}{f_n} &= 2\pi i \cdot \Res(g, i) = 2\pi i \cdot \frac{1}{2\pi i} = 1
+\end{align}
+
+\paragraph{Case 2: $m \ne n$}
+
+\textbf{1) $m > n$}
+Let $k = m-n \ge 1$. The integrand is $g(z) = \frac{1}{\pi} \frac{(z-i)^{k-1}}{(z+i)^{k+1}}$.
+The only singularity is a pole at $z = -i$ of order $k+1$. Since this pole is in the lower half-plane, the upper half-plane contour encloses no singularities.
+\begin{align}
+    \ip{f_m}{f_n} = 2\pi i \cdot (0) = 0
+\end{align}
+
+\textbf{2) $m < n$}
+Let $k = n-m \ge 1$. The integrand is $g(z) = \frac{1}{\pi} \frac{(z+i)^{k-1}}{(z-i)^{k+1}}$.
+The only singularity is a pole at $z = i$ of order $p=k+1$, which is in the upper half-plane.
+The residue is:
+\begin{align}
+    \Res(g, i) &= \frac{1}{k!} \lim_{z\to i} \frac{d^{k}}{dz^{k}} \left[ (z-i)^{k+1} g(z) \right] \\
+    &= \frac{1}{k!} \lim_{z\to i} \frac{d^{k}}{dz^{k}} \left[ \frac{1}{\pi} (z+i)^{k-1} \right]
+\end{align}
+Since $k \ge 1$, the $k$-th derivative of the polynomial $(z+i)^{k-1}$ (which has degree $k-1$) is zero.
+\begin{align}
+    \frac{d^{k}}{dz^{k}} (z+i)^{k-1} &= 0 \\
+    \therefore \Res(g, i) &= 0
+\end{align}
+\begin{align}
+    \ip{f_m}{f_n} &= 2\pi i \cdot \Res(g, i) = 0
+\end{align}
+
+\paragraph{Conclusion}
+The functions satisfy $\ip{f_m}{f_n} = 1$ if $m=n$ and $0$ if $m\ne n$, thus they form an orthonormal set.
+
+\end{document}
