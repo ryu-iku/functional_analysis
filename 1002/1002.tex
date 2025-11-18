@@ -92,7 +92,7 @@
 \end{problem}
 
 \begin{proof}
-1. Linearity of $c_0(X)$:
+\subsection*{1. Linearity of $c_0(X)$}
 Let $x = (x_n), y = (y_n) \in c_0(X)$ and $\lambda \in \mathbb{K}$.
 \begin{itemize}
     \item Addition: $x+y = (x_n + y_n)$. By the triangle inequality on $X$:
@@ -115,62 +115,116 @@ Let $x = (x_n), y = (y_n) \in c_0(X)$ and $\lambda \in \mathbb{K}$.
 \end{itemize}
 Hence, $c_0(X)$ is a linear space.
 
-2. $X$ is Banach $\Longrightarrow$ completeness of $c_0(X)$ :
+\subsection*{2. $X$ is Banach $\implies$ completeness of $c_0(X)$}
+    Assume $X$ is a Banach space. We show that $c_0(X)$ is complete with respect to the norm $\norm{x} = \sup_{n\in\mathbb{N}} \norm{x_n}_X$.
+    
+    Let $(x^{(k)})_{k\in\mathbb{N}}$ be a Cauchy sequence in $c_0(X)$, where $x^{(k)} = (x_1^{(k)}, x_2^{(k)}, \ldots, x_n^{(k)}, \ldots)$.
+    
+    Since $(x^{(k)})_{k\in\mathbb{N}}$ is Cauchy, for every $\epsilon > 0$, there exists an integer $K$ such that for all $k, j \geq K$:
+    \begin{gather}
+    \norm{x^{(k)} - x^{(j)}} = \sup_{n\in\mathbb{N}} \norm{x_n^{(k)} - x_n^{(j)}}_X < \epsilon \label{eq:cauchy_sup}
+    \end{gather}
+    
+    \begin{itemize}
+        \item \textbf{Step 1: Determine the limit element $x$}.
+        For a fixed $n \in \mathbb{N}$, the sup-norm condition $(\ref{eq:cauchy_sup})$ implies that the component sequence $(x_n^{(k)})_{k\in\mathbb{N}}$ is Cauchy in $X$, since:
+        \begin{gather}
+        \norm{x_n^{(k)} - x_n^{(j)}}_X \leq \sup_{m\in\mathbb{N}} \norm{x_m^{(k)} - x_m^{(j)}}_X < \epsilon \quad \text{for all } k, j \geq K
+        \end{gather}
+        Since $X$ is a Banach space, it is complete. Therefore, for each $n$, the sequence $(x_n^{(k)})_{k\in\mathbb{N}}$ converges to some limit $x_n \in X$:
+        \begin{gather}
+        x_n = \lim_{k\to\infty} x_n^{(k)}
+        \end{gather}
+        We define the candidate limit element as $x = (x_n)_{n\in\mathbb{N}}$.
+        
+        \item \textbf{Step 2: Show $x \in c_0(X)$}.
+        We must show $\lim_{n\to\infty} \norm{x_n}_X = 0$.
+        Fix $k \geq K$. Taking the limit as $j \to \infty$ in the inequality $\norm{x_n^{(k)} - x_n^{(j)}}_X \leq \epsilon$, which is a consequence of the Cauchy condition $(\ref{eq:cauchy_sup})$, we get:
+        \begin{gather}
+        \norm{x_n^{(k)} - x_n}_X \leq \epsilon \quad \text{for all } n \in \mathbb{N}
+        \end{gather}
+        Now, use the triangle inequality on $X$:
+        \begin{gather}
+        \norm{x_n}_X \leq \norm{x_n - x_n^{(k)}}_X + \norm{x_n^{(k)}}_X \leq \epsilon + \norm{x_n^{(k)}}_X
+        \end{gather}
+        Since $x^{(k)} \in c_0(X)$, we know $\lim_{n\to\infty} \norm{x_n^{(k)}}_X = 0$.
+        Thus, for this fixed $k$, there exists an integer $N$ such that for all $n \geq N$:
+        \begin{gather}
+        \norm{x_n^{(k)}}_X < \epsilon
+        \end{gather}
+        
+        Combining the two preceding inequalities (for $\norm{x_n}_X$ and $\norm{x_n^{(k)}}_X$) for $n \geq N$:
+        \begin{gather}
+        \norm{x_n}_X < \epsilon + \epsilon = 2\epsilon
+        \end{gather}
+        Since $\epsilon > 0$ was arbitrary, this proves $\lim_{n\to\infty} \norm{x_n}_X = 0$, so $x \in c_0(X)$.
+        
+        \item \textbf{Step 3: Show $x^{(k)} \to x$ in $c_0(X)$}.
+        The inequality $\norm{x_n^{(k)} - x_n}_X \leq \epsilon$ (derived in Step 2 for $k \geq K$) holds for all $n \in \mathbb{N}$.
+        Taking the supremum over $n$:
+        \begin{gather}
+        \norm{x^{(k)} - x} = \sup_{n\in\mathbb{N}} \norm{x_n^{(k)} - x_n}_X \leq \epsilon \quad \text{for all } k \geq K
+        \end{gather}
+        Therefore, $x^{(k)}$ converges to $x$ in $c_0(X)$.
+    \end{itemize}
+    Since every Cauchy sequence in $c_0(X)$ converges to an element in $c_0(X)$, the space $c_0(X)$ is a Banach space.
 
-Assume $X$ is a Banach space. Let $(x^{(k)})_{k\in\N}$ be a Cauchy sequence in $c_0(X)$ with respect to the $\sup$-norm, where $x^{(k)} = (x_1^{(k)}, x_2^{(k)}, \ldots)$, and let it converge to $x$.
+% 2. $X$ is Banach $\Longrightarrow$ completeness of $c_0(X)$ :
 
-Since the sequence is Cauchy, we have
-$$
-\forall \epsilon > 0, \exists k > N \text{ s.t. } 
-\norm{x^{(k)} - x} < \epsilon, 
-$$
+% Assume $X$ is a Banach space. Let $(x^{(k)})_{k\in\N}$ be a Cauchy sequence in $c_0(X)$ with respect to the $\sup$-norm, where $x^{(k)} = (x_1^{(k)}, x_2^{(k)}, \ldots)$, and let it converge to $x$.
 
-\begin{gather}
-\therefore \epsilon > \norm{x^{(k)} - x}
-= \sup_{n\in\N} \norm{x_n^{(k)} - x_n}_{X}
-\end{gather}
+% Since the sequence is Cauchy, we have
+% $$
+% \forall \epsilon > 0, \exists k > N \text{ s.t. } 
+% \norm{x^{(k)} - x} < \epsilon, 
+% $$
 
-Thus, $\forall m \in \N$,
-\begin{gather}
-\norm{x_m^{(k)} - x_m}_X
-\leq \sup_{n\in\N} \norm{x_n^{(k)} - x_n}_{X}
-< \epsilon
-\end{gather}
+% \begin{gather}
+% \therefore \epsilon > \norm{x^{(k)} - x}
+% = \sup_{n\in\N} \norm{x_n^{(k)} - x_n}_{X}
+% \end{gather}
 
-With trianglar inequality, we have
-\begin{gather}
-\norm{x_m}_{X} 
-\leq \norm{x_m - x_m^{(k)}}_{X} + \norm{x_m^{(k)}}_{X}
-\end{gather}
+% Thus, $\forall m \in \N$,
+% \begin{gather}
+% \norm{x_m^{(k)} - x_m}_X
+% \leq \sup_{n\in\N} \norm{x_n^{(k)} - x_n}_{X}
+% < \epsilon
+% \end{gather}
 
-From (6), we have
-\begin{gather}
-\norm{x_m^{(k)} - x_m}_X + \norm{x_m^{(k)}}_{X} 
-< \epsilon + \norm{x_m^{(k)}}_{X}
-\end{gather}
+% With trianglar inequality, we have
+% \begin{gather}
+% \norm{x_m}_{X} 
+% \leq \norm{x_m - x_m^{(k)}}_{X} + \norm{x_m^{(k)}}_{X}
+% \end{gather}
 
-Get (7) and (8) togeter, wa have
-\begin{gather}
-\norm{x_m}_{X}
-< \epsilon + \norm{x_m^{(k)}}_{X}
-\end{gather}
+% From (6), we have
+% \begin{gather}
+% \norm{x_m^{(k)} - x_m}_X + \norm{x_m^{(k)}}_{X} 
+% < \epsilon + \norm{x_m^{(k)}}_{X}
+% \end{gather}
 
-Since $x^{(k)} \in c_0(X)$, $\lim_{n\to\infty} \norm{x_n^{(k)}}_{X} = 0$. 
-Therefore, there exists $N \in \N$ such that for all $n \geq N$, $\norm{x_n^{(k)}}_{X} < \epsilon$.
+% Get (7) and (8) togeter, wa have
+% \begin{gather}
+% \norm{x_m}_{X}
+% < \epsilon + \norm{x_m^{(k)}}_{X}
+% \end{gather}
 
-Hence, for $l \geq N$ with (9)
-\begin{gather}
-\norm{x_l}_{X} 
-\leq \epsilon + \norm{x_l^{(k)}}_{X} 
-= 2\epsilon
-\end{gather}
+% Since $x^{(k)} \in c_0(X)$, $\lim_{n\to\infty} \norm{x_n^{(k)}}_{X} = 0$. 
+% Therefore, there exists $N \in \N$ such that for all $n \geq N$, $\norm{x_n^{(k)}}_{X} < \epsilon$.
 
-Since $\epsilon > 0$ was arbitrary, this proves 
-\begin{gather}
-\lim_{l\to\infty} \norm{x_l}_{X} = 0
-\end{gather}
-, so $x \in c_0(X)$.
-Since every Cauchy sequence in $c_0(X)$ converges to an element in $c_0(X)$, the space $c_0(X)$ is Banach.
+% Hence, for $l \geq N$ with (9)
+% \begin{gather}
+% \norm{x_l}_{X} 
+% \leq \epsilon + \norm{x_l^{(k)}}_{X} 
+% = 2\epsilon
+% \end{gather}
+
+% Since $\epsilon > 0$ was arbitrary, this proves 
+% \begin{gather}
+% \lim_{l\to\infty} \norm{x_l}_{X} = 0
+% \end{gather}
+% , so $x \in c_0(X)$.
+% Since every Cauchy sequence in $c_0(X)$ converges to an element in $c_0(X)$, the space $c_0(X)$ is Banach.
 \end{proof}
 
 \hrule
