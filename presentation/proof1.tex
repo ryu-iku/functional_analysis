@@ -6,14 +6,10 @@
 \usepackage[english]{babel}
 \usepackage{amsmath, amssymb, amsthm}
 \usepackage{geometry}
+\usepackage{upgreek} % For upright Greek letters if needed, though not used here
 
-% Remove redundant/conflicting geometry and documentclass
+% Set geometry
 \geometry{a4paper, top=2.5cm, bottom=2.5cm, left=2cm, right=2cm}
-
-% The modern font setup (fontspec, babelfont) has been removed to fix the compilation error.
-% \usepackage{fontspec}
-% \babelprovide[import, onchar=ids fonts]{english}
-% \babelfont{rm}{Noto Sans}
 
 % Define theorem and definition environments
 \newtheorem{definition}{Definition}[section]
@@ -67,65 +63,143 @@ The eigenfunctions corresponding to the non-zero eigenvalues are continuous on $
 \begin{align}
 k(x, y) = \sum_{i=1}^\infty \lambda_i \psi_i(x) \psi_i(y), \label{equation:mercer_kernel_decomposition}
 \end{align}
-where the convergence is absolute and uniform.
+where the convergence is \textbf{absolute and uniform}.
 \end{theorem}
 
 \begin{proof}
-A roughly high-level proof for the Mercer’s theorem is as follows.
+The proof relies on establishing that the operator $T_k$ is symmetric and compact, which allows the application of the Spectral Theorem for compact self-adjoint operators.
 
-\textbf{Step 1 of proof:} According to assumptions of theorem, the Hilbert-Schmidt integral operator $T_k$ is a symmetric operator on $L^2(a, b)$ space. Consider a unit ball in $L^2(a, b)$ as input to the operator. As the kernel is bounded, $\sup_{x, y} k(x, y) < \infty$, the sequence $f_1, f_2, \dots$ converges in norm, i.e. $ \|f_n - f\| \rightarrow 0 $ as $n \rightarrow 0$. Therefore, according to the Arzel\`a-Ascoli theorem, the image of the unit ball after applying the operator is compact. In other words, the operator $T_k$ is compact.
+\textbf{Step 1: The Operator $T_k$ is Symmetric and Compact.}
+According to the theorem's assumptions, the Hilbert-Schmidt integral operator $T_k$ is a symmetric operator on the Hilbert space $L^2(a, b)$ and is also a compact operator.
 
-\textbf{Step 2 of proof:} According to the spectral theorem, there exist several orthonormal bases $\{ \psi_i(.) \}_{i=1}^\infty$ in $L^2(a, b)$ for the compact operator $T_k$. This provides a spectral (or eigenvalue) decomposition for the operator $T_k$:
-\begin{align}
-T_k \psi_i(x) = \lambda_i \psi_i(x), \label{equation:spectral_decomposition_operator}
-\end{align}
-where $\{ \psi_i(.) \}_{i=1}^\infty$ and $\{ \lambda_i \}_{i=1}^\infty$ are the eigenvectors and eigenvalues of the operator $T_k$, respectively. Noticing the deﬁned Eq. \eqref{equation:mercer_operator} and the eigenvalue decomposition, Eq. \eqref{equation:spectral_decomposition_operator}, we have:
+\begin{itemize}
+    \item \textbf{Symmetry:} The symmetry of $T_k$ follows from the symmetry of the kernel $k(x,y)$, i.e., $k(x,y) = k(y,x)$. For any $f, g \in L^2(a, b)$, we must show $\langle T_k f, g \rangle_{L^2} = \langle f, T_k g \rangle_{L^2}$. Expanding the left side:
+    \begin{align*}
+    \langle T_k f, g \rangle_{L^2} &= \int_{a}^{b} (T_k f(x)) g(x) dx \\
+    &= \int_{a}^{b} \left( \int_{a}^{b} k(x, y) f(y) dy \right) g(x) dx
+    \end{align*}
+    Since $k(x,y)$ is continuous and bounded, the integrand is absolutely integrable, allowing us to interchange the order of integration using \textbf{Fubini's Theorem}:
+    \begin{align*}
+    \langle T_k f, g \rangle_{L^2} &= \int_{a}^{b} \int_{a}^{b} k(x, y) f(y) g(x) dx dy \\
+    &= \int_{a}^{b} f(y) \left( \int_{a}^{b} k(y, x) g(x) dx \right) dy \quad (\text{using } k(x,y) = k(y,x))\\
+    &= \int_{a}^{b} f(y) (T_k g(y)) dy = \langle f, T_k g \rangle_{L^2}.
+    \end{align*}
+    Thus, $T_k$ is symmetric (self-adjoint).
+
+    \item \textbf{Compactness:} The compactness of $T_k$ is guaranteed because $k(x,y)$ is continuous and bounded on the compact domain $[a,b] \times [a,b]$. The operator $T_k$ maps bounded sets in $L^2(a,b)$ to relatively compact sets in $C([a,b])$. This relies on the \textbf{Arzel\`a-Ascoli Theorem}, which requires that the image set $\mathcal{F} = \{T_k f \mid \|f\|_{L^2} \le 1\}$ is uniformly bounded and equicontinuous. Both conditions are satisfied due to the uniform continuity and boundedness of $k(x,y)$.
+\end{itemize}
+
+\textbf{Step 2: Application of the Spectral Theorem and Eigenvalue Decomposition.}
+Since $T_k$ is a symmetric (self-adjoint) and compact operator on the Hilbert space $L^2(a, b)$, the \textbf{Spectral Theorem for compact self-adjoint operators} applies. This theorem guarantees:
+\begin{enumerate}
+    \item The existence of an orthonormal basis $\{ \psi_i(.) \}_{i=1}^\infty$ for $L^2(a, b)$ consisting of the eigenfunctions of $T_k$.
+    \item That the operator satisfies the eigenvalue decomposition:
+    \begin{align}
+    T_k \psi_i(x) = \lambda_i \psi_i(x), \label{equation:spectral_decomposition_operator}
+    \end{align}
+    where $\{ \lambda_i \}_{i=1}^\infty$ are the corresponding real eigenvalues.
+\end{enumerate}
+Substituting the deﬁnition of $T_k$ from Eq. \eqref{equation:mercer_operator} into Eq. \eqref{equation:spectral_decomposition_operator} yields the eigenfunction decomposition:
 \begin{align}
 \int k(x, y) \psi_i(y) dy \overset{\eqref{equation:mercer_operator}}{=} T_k \psi_i(x) \overset{\eqref{equation:spectral_decomposition_operator}}{=} \lambda_i \psi_i(x). \label{equation:eigenfunction_decomposition_operator}
 \end{align}
-This proves the Eq. \eqref{equation:mercer_eigenfunction_decomposition} which is the eigenfunction decomposition of the operator $T_k$. Note that the eigenvectors $\{ \psi_i(.) \}_{i=1}^\infty$ are referred to as the \textit{eigenfunctions} because the decomposition is applied on a function or operator rather than a matrix. Note that eigenfunctions will be explained more in Section \ref{section:eigenfunctions}.
+Furthermore, since $k(x,y)$ is positive semi-deﬁnite (Eq. \eqref{equation:mercer_positive_semidefinite_integral}), it guarantees that all eigenvalues $\lambda_i$ must be non-negative ($\lambda_i \geq 0$).
 
-\textbf{Step 3 of proof:} According to Parseval’s theorem, the Bessel’s inequality can be converted to equality. For the orthonormal bases $\{ \psi_i(.) \}_{i=1}^\infty$ in the Hilbert space $\mathcal{H}$ associated with kernel $k$, we have for any function $f \in L^2(a, b)$:
-\begin{align}
-f = \sum_{i=1}^\infty \langle f, \psi_i \rangle_k \psi_i. \label{equation:parsevals_theorem}
-\end{align}
-If we replace $\psi_i$ with $f$ in Eq. \eqref{equation:spectral_decomposition_operator} and consider Eq. \eqref{equation:parsevals_theorem}, we will have:
-\begin{align}
-T_k f = \sum_{i=1}^\infty \lambda_i \langle f, \psi_i \rangle_k \psi_i. \label{equation:tk_f_lambda_psi}
-\end{align}
-One can consider Eq. \eqref{equation:mercer_operator} as $T_k f = kf$. Noticing this and Eq. \eqref{equation:tk_f_lambda_psi} results in:
-\begin{align}
-kf = \sum_{i=1}^\infty \lambda_i \langle f, \psi_i \rangle_k \psi_i. \label{equation:kf_lambda_psi}
-\end{align}
-Ignoring $f$ from Eq. \eqref{equation:kf_lambda_psi} gives:
-\begin{align}
-k(x, y) = \sum_{i=1}^\infty \lambda_i \psi_i(x) \psi_i(y), \label{equation:mercer_kernel_decomposition_reproved}
-\end{align}
-which is Eq. \eqref{equation:mercer_kernel_decomposition}; hence, that is proved.
+\textbf{Step 3: Derivation of the Kernel Expansion (Mercer's Series).}
+The functions $\{ \psi_i(.) \}_{i=1}^\infty$ form a \textbf{complete orthonormal basis} for $L^2(a, b)$ due to the Spectral Theorem. This completeness means that any function in $L^2(a, b)$, including $g_x(y) = k(x,y)$ (for a fixed $x$), can be perfectly represented by the basis. This is formalized by \textbf{Parseval's Identity} (the equality case of Bessel's Inequality).
+\begin{enumerate}
+    \item We expand $k(x, y)$ (as a function of $y$) in the orthonormal basis $\{ \psi_i(y) \}$:
+    \begin{align}
+    k(x, y) = \sum_{i=1}^\infty \langle k(x, \cdot), \psi_i \rangle_{L^2} \psi_i(y) \nonumber 
+    \end{align}
+    \item The coefficients are the inner products, which by the eigenvalue equation (Eq. \eqref{equation:eigenfunction_decomposition_operator}) are:
+    \begin{align}
+    \langle k(x, \cdot), \psi_i \rangle_{L^2} = \int_{a}^{b} k(x, y) \psi_i(y) dy = \lambda_i \psi_i(x). \label{equation:eigenvalue_substituion}
+    \end{align}
+    \item Substituting the coefficients gives Mercer's Series:
+    \begin{align}
+    k(x, y) = \sum_{i=1}^\infty (\lambda_i \psi_i(x)) \psi_i(y) = \sum_{i=1}^\infty \lambda_i \psi_i(x) \psi_i(y), \label{equation:mercer_kernel_decomposition_reproved}
+    \end{align}
+    which is Eq. \eqref{equation:mercer_kernel_decomposition}.
+\end{enumerate}
 
-\textbf{Step 4 of proof:} We deﬁne the truncated kernel $r_n$ (with parameter $n$) as:
-\begin{align}
-r_n(x, y) &:= k(x, y) - \sum_{i=1}^n \lambda_i \psi_i(x) \psi_i(y) \nonumber \\
-&= \sum_{i=n+1}^\infty \lambda_i \psi_i(x) \psi_i(y). \label{equation:truncated_kernel}
-\end{align}
-As $T_k$ is an integral operator, this truncated kernel has positive kernel, i.e., for every $x \in [a, b]$, we have:
-\begin{equation*} % Use equation* for the unnumbered part of the derivation
-r_n(x, x) = k(x, x) - \sum_{i=1}^n \lambda_i \psi_i(x) \psi_i(x) \geq 0 
-\end{equation*}
-which implies
-\begin{equation} % Use equation for the single line that requires the label
-\sum_{i=1}^n \lambda_i \psi_i(x) \psi_i(x) \leq k(x, x) \leq \sup_{x \in [a, b]} k(x, x). \label{equation:truncated_kernel_bound}
-\end{equation}
-By Cauchy-Schwartz inequality, we have:
-\begin{align*}
-\left| \sum_{i=1}^n \lambda_i \psi_i(x) \psi_i(y) \right|^2 &\leq \left( \sum_{i=1}^n \lambda_i \psi_i(x) \psi_i(x) \right) \left( \sum_{i=1}^n \lambda_i \psi_i(y) \psi_i(y) \right) \\
-&\overset{\eqref{equation:truncated_kernel_bound}}{\leq} \left( \sup_{x \in [a, b]} k(x, x) \right)^2.
-\end{align*}
-Taking second root from the sides of inequality gives:
-\begin{align}
-\sum_{i=1}^n \lambda_i \psi_i(x) \psi_i(x) \leq \sup_{x \in [a, b]} |k(x, x)| \overset{\eqref{equation:mercer_bounded}}{\leq} \infty. \label{equation:mercer_convergence}
-\end{align}
-This shows that the sequence $\sum_{i=1}^n \lambda_i \psi_i(x) \psi_i(x)$ converges absolutely and uniformly.
+\textbf{Step 4: Proving Absolute and Uniform Convergence.}
+The final step is crucial as it elevates the convergence from $L^2$ (guaranteed by the Spectral Theorem) to the stronger \textbf{absolute and uniform convergence} required by the theorem.
+\begin{itemize}
+    \item \textbf{Meaning of Convergence:}
+    \begin{enumerate}
+        \item \textbf{Absolute Convergence:} The series $\sum_{i=1}^\infty |\lambda_i \psi_i(x) \psi_i(y)|$ must converge.
+        \item \textbf{Uniform Convergence:} The rate of convergence of the partial sums $S_n(x,y) = \sum_{i=1}^n \lambda_i \psi_i(x) \psi_i(y)$ to $k(x,y)$ must be independent of the location $(x,y)$ in the domain. Uniform convergence is required to ensure that the sum $k(x,y)$ inherits the \textbf{continuity} property from its continuous terms (eigenfunctions $\psi_i(x)$).
+    \end{enumerate}
+
+    \item \textbf{The Truncated Kernel $r_n(x,y)$:} To prove this strong form of convergence, we must analyze the remainder of the series. We define the truncated kernel $r_n$ (with parameter $n$) as the remainder:
+    \begin{align}
+    r_n(x, y) &:= k(x, y) - \sum_{i=1}^n \lambda_i \psi_i(x) \psi_i(y) = \sum_{i=n+1}^\infty \lambda_i \psi_i(x) \psi_i(y). \label{equation:truncated_kernel}
+    \end{align}
+    The definition of the truncated kernel is essential because it allows us to utilize the positive semi-definite property of $k(x,y)$. Since $k(x,y)$ is positive semi-definite and each term $\lambda_i \psi_i(x) \psi_i(y)$ (with $\lambda_i \ge 0$) is also a rank-1 positive semi-definite kernel, their difference $r_n(x,y)$ is \textbf{also a positive semi-definite kernel}.
+
+    \item \textbf{Establishing the Bound:} The positive semi-definite property implies that $r_n(x, x) \geq 0$ for every $x \in [a, b]$, which leads to:
+    \begin{equation*} 
+    r_n(x, x) = k(x, x) - \sum_{i=1}^n \lambda_i \psi_i(x)^2 \geq 0 
+    \end{equation*}
+    which establishes the critical upper bound for the partial sums:
+    \begin{equation} 
+    \sum_{i=1}^n \lambda_i \psi_i(x)^2 \leq k(x, x) \leq \sup_{x \in [a, b]} k(x, x). \label{equation:truncated_kernel_bound}
+    \end{equation}
+    Since $k(x,x)$ is bounded (Eq. \eqref{equation:mercer_bounded}), the partial sums for the series $\sum_{i=1}^\infty \lambda_i \psi_i(x)^2$ are uniformly bounded, ensuring its convergence.
+
+    \item \textbf{Conclusion of Convergence and Uniform Bound:}
+    The uniform boundedness of the partial sums for the diagonal terms, $\sum_{i=1}^n \lambda_i \psi_i(x)^2$ (Eq. \eqref{equation:truncated_kernel_bound}), is the key. Since the eigenvalues $\lambda_i$ are non-negative, the series $\sum_{i=1}^\infty \lambda_i \psi_i(x)^2$ converges pointwise and is bounded by $\sup_{x} k(x,x)$.
+    
+    We now apply the \textbf{Cauchy-Schwarz inequality for series} to bound the magnitude of the remainder term $r_n(x,y)$ (the sum from $i=n+1$ to $\infty$):
+    \begin{align*}
+    |r_n(x, y)| &= \left| \sum_{i=n+1}^\infty \lambda_i \psi_i(x) \psi_i(y) \right| \\
+    &\leq \sum_{i=n+1}^\infty \lambda_i |\psi_i(x) \psi_i(y)| \quad (\text{Since } \lambda_i \ge 0, \text{ the absolute value moves inside}) \\
+    &\leq \sqrt{\left( \sum_{i=n+1}^\infty \lambda_i \psi_i(x)^2 \right) \left( \sum_{i=n+1}^\infty \lambda_i \psi_i(y)^2 \right)}
+    \end{align*}
+    Let $R_n(x) = \sum_{i=n+1}^\infty \lambda_i \psi_i(x)^2$ be the remainder of the convergent series for $k(x,x)$. Since $k(x,y)$ is continuous on the compact domain, the convergence of the diagonal series $k(x,x) = \sum_{i=1}^\infty \lambda_i \psi_i(x)^2$ is itself uniform. This implies that $R_n(x) \to 0$ uniformly for all $x \in [a,b]$ as $n \to \infty$.
+
+    Since both $R_n(x) \to 0$ and $R_n(y) \to 0$ uniformly, their product also goes to zero uniformly:
+    $$ |r_n(x, y)| \leq \sqrt{R_n(x) R_n(y)} \to 0 \quad \text{uniformly as } n \to \infty. $$
+    Because the remainder term $r_n(x,y)$ converges uniformly to zero, the original series $\sum_{i=1}^\infty \lambda_i \psi_i(x) \psi_i(y)$ converges \textbf{uniformly}. Furthermore, the boundedness of the series of absolute values (established via the Cauchy-Schwarz bound) proves \textbf{absolute convergence}.
+    
+    This strong form of convergence (absolute and uniform) is necessary to ensure the resulting function $k(x,y)$ is continuous, validating the series representation of the kernel, and concluding the proof.
+\end{itemize}
 \end{proof}
+
+% \subsection{Feature Map and Pulling Function} \label{section:feature_map}
+% Let $\mathcal{X} := \{x_i\}_{i=1}^n$ be the set of data in the input space (note that the input space is the original space of data). The $t$-dimensional (perhaps inﬁnite dimensional) feature space (or Hilbert space) is denoted by $\mathcal{H}$.
+
+% \begin{definition}[Feature Map or Pulling Function] \label{definition:feature_map}
+% We deﬁne the mapping:
+% \begin{align}
+% \phi : \mathcal{X} \rightarrow \mathcal{H}, \label{equation:feature_map_definition}
+% \end{align}
+% to transform data from the input space to the feature space, i.e. Hilbert space. In other words, this mapping pulls data to the feature space:
+% \begin{align}
+% x \mapsto \phi(x). \label{equation:pulling_function}
+% \end{align}
+% The function $\phi(x)$ is called the feature map or pulling function. The feature map is a (possibly inﬁnite-dimensional) vector whose elements are:
+% \begin{align}
+% \phi(x) = [\phi_1(x), \phi_2(x), \dots]^\top := [\sqrt{\lambda_1} \psi_1(x), \sqrt{\lambda_2} \psi_2(x), \dots]^\top, \label{equation:feature_map_elements}
+% \end{align}
+% where $\{ \psi_i \}$ and $\{ \lambda_i \}$ are eigenfunctions and eigenvalues of the kernel operator (see Eq. \eqref{equation:mercer_eigenfunction_decomposition}). Note that eigenfunctions will be explained more in Section \ref{section:eigenfunctions}.
+% \end{definition}
+
+% Let $t$ denote the dimensionality of $\phi(x)$. The feature map may be inﬁnite or ﬁnite dimensional, i.e. $t$ can be inﬁnity; it is usually a very large number (recall Deﬁnition \ref{definition:hilbert_space} where we said Hilbert space may have inﬁnite number of dimensions).
+
+% Considering both Eqs. \eqref{equation:mercer_kernel_decomposition} and \eqref{equation:feature_map_elements} shows that:
+% \begin{align}
+% k(x, y) = \langle \phi(x), \phi(y) \rangle_k = \phi(x)^\top \phi(y). \label{equation:kernel_inner_product}
+% \end{align}
+% Hence, the kernel between two points is the inner product of pulled data points to the feature space. Suppose we stack the feature maps of all points $\mathbf{X} \in \mathbb{R}^{d \times n}$ column-wise in:
+% \begin{align}
+% \mathbf{\Phi}(\mathbf{X}) := [\phi(x_1), \phi(x_2), \dots, \phi(x_n)], \label{equation:stacked_feature_maps}
+% \end{align}
+% which is $t \times n$ dimensional and $t$ may be inﬁnity or a large number. The kernel matrix deﬁned in Deﬁnition \ref{definition:gram_matrix} can be calculated as:
+% \begin{align}
+% \mathbb{R}^{n \times n} \ni \mathbf{K} = \langle \mathbf{\Phi}(\mathbf{X}), \mathbf{\Phi}(\mathbf{X}) \rangle_k = \mathbf{\Phi}(\mathbf{X})^\top \mathbf{\Phi}(\mathbf{X}). \label{equation:kernel_matrix_phi}
+% \end{align}
+% Eqs. \eqref{equation:kernel_inner_product} and \eqref{equation:kernel_matrix_phi} show that there is no need to compute kernel using eigenfunctions but a simple inner product sufﬁces for kernel computation. This is the beauty of kernel methods which are simple to compute.
 
 \end{document}
