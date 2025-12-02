@@ -1,0 +1,131 @@
+\documentclass[11pt, a4paper]{article}
+
+% Use standard LaTeX packages compatible with pdflatex/latex engine
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[english]{babel}
+\usepackage{amsmath, amssymb, amsthm}
+\usepackage{geometry}
+
+% Remove redundant/conflicting geometry and documentclass
+\geometry{a4paper, top=2.5cm, bottom=2.5cm, left=2cm, right=2cm}
+
+% The modern font setup (fontspec, babelfont) has been removed to fix the compilation error.
+% \usepackage{fontspec}
+% \babelprovide[import, onchar=ids fonts]{english}
+% \babelfont{rm}{Noto Sans}
+
+% Define theorem and definition environments
+\newtheorem{definition}{Definition}[section]
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{corollary}{Corollary}[section]
+\newtheorem{lemma}{Lemma}[section]
+\newtheorem{remark}{Remark}[section]
+
+% Remove extra space from theorem definitions
+\makeatletter
+\def\thm@space@setup{%
+  \thm@preskip=\topsep \thm@postskip=\topsep
+  \itemsep \z@ \topsep \z@ \partopsep \z@ \parsep \z@
+}
+\makeatother
+
+\begin{document}
+
+\section{Mercer’s Theorem and Feature Map} \label{section:mercers_theorem_and_feature_map}
+
+\subsection{Mercer’s Theorem} \label{section:mercers_theorem}
+
+\begin{definition}[Deﬁnite Kernel] \label{definition:definite_kernel}
+The function $k : [a, b] \times [a, b] \rightarrow \mathbb{R}$ is a deﬁnite kernel where the following double integral:
+\begin{align}
+J(f) = \int_{a}^{b} \int_{a}^{b} k(x, y) f(x) f(y) dx dy, \label{equation:definite_kernel_integral}
+\end{align}
+satisﬁes $J(f) > 0$ for all $f(x) \neq 0$.
+\end{definition}
+
+Mercer improved over Hilbert’s work to propose his theorem, the Mercer’s theorem, introduced in the following.
+
+\begin{theorem}[Mercer’s Theorem] \label{theorem:mercers_theorem_main}
+Suppose $k : [a, b] \times [a, b] \rightarrow \mathbb{R}$ is a continuous symmetric positive semi-deﬁnite kernel which is bounded:
+\begin{align}
+\sup_{x, y} k(x, y) < \infty. \label{equation:mercer_bounded}
+\end{align}
+Assume the operator $T_k$ takes a function $f(x)$ as its argument and outputs a new function as:
+\begin{align}
+T_k f(x) := \int_{a}^{b} k(x, y) f(y) dy, \label{equation:mercer_operator}
+\end{align}
+which is a Fredholm integral equation. The operator $T_k$ is called the Hilbert–Schmidt integral operator. This output function is positive semi-deﬁnite:
+\begin{align}
+\iint k(x, y) f(y) dx dy \geq 0. \label{equation:mercer_positive_semidefinite_integral}
+\end{align}
+Then, there is a set of orthonormal bases $\{ \psi_i(.) \}_{i=1}^\infty$ of $L^2(a, b)$ consisting of eigenfunctions of $T_K$ such that the corresponding sequence of eigenvalues $\{ \lambda_i \}_{i=1}^\infty$ are non-negative:
+\begin{align}
+\int k(x, y) \psi_i(y) dy = \lambda_i \psi_i(x). \label{equation:mercer_eigenfunction_decomposition}
+\end{align}
+The eigenfunctions corresponding to the non-zero eigenvalues are continuous on $[a, b]$ and $k$ can be represented as:
+\begin{align}
+k(x, y) = \sum_{i=1}^\infty \lambda_i \psi_i(x) \psi_i(y), \label{equation:mercer_kernel_decomposition}
+\end{align}
+where the convergence is absolute and uniform.
+\end{theorem}
+
+\begin{proof}
+A roughly high-level proof for the Mercer’s theorem is as follows.
+
+\textbf{Step 1 of proof:} According to assumptions of theorem, the Hilbert-Schmidt integral operator $T_k$ is a symmetric operator on $L^2(a, b)$ space. Consider a unit ball in $L^2(a, b)$ as input to the operator. As the kernel is bounded, $\sup_{x, y} k(x, y) < \infty$, the sequence $f_1, f_2, \dots$ converges in norm, i.e. $ \|f_n - f\| \rightarrow 0 $ as $n \rightarrow 0$. Therefore, according to the Arzel\`a-Ascoli theorem, the image of the unit ball after applying the operator is compact. In other words, the operator $T_k$ is compact.
+
+\textbf{Step 2 of proof:} According to the spectral theorem, there exist several orthonormal bases $\{ \psi_i(.) \}_{i=1}^\infty$ in $L^2(a, b)$ for the compact operator $T_k$. This provides a spectral (or eigenvalue) decomposition for the operator $T_k$:
+\begin{align}
+T_k \psi_i(x) = \lambda_i \psi_i(x), \label{equation:spectral_decomposition_operator}
+\end{align}
+where $\{ \psi_i(.) \}_{i=1}^\infty$ and $\{ \lambda_i \}_{i=1}^\infty$ are the eigenvectors and eigenvalues of the operator $T_k$, respectively. Noticing the deﬁned Eq. \eqref{equation:mercer_operator} and the eigenvalue decomposition, Eq. \eqref{equation:spectral_decomposition_operator}, we have:
+\begin{align}
+\int k(x, y) \psi_i(y) dy \overset{\eqref{equation:mercer_operator}}{=} T_k \psi_i(x) \overset{\eqref{equation:spectral_decomposition_operator}}{=} \lambda_i \psi_i(x). \label{equation:eigenfunction_decomposition_operator}
+\end{align}
+This proves the Eq. \eqref{equation:mercer_eigenfunction_decomposition} which is the eigenfunction decomposition of the operator $T_k$. Note that the eigenvectors $\{ \psi_i(.) \}_{i=1}^\infty$ are referred to as the \textit{eigenfunctions} because the decomposition is applied on a function or operator rather than a matrix. Note that eigenfunctions will be explained more in Section \ref{section:eigenfunctions}.
+
+\textbf{Step 3 of proof:} According to Parseval’s theorem, the Bessel’s inequality can be converted to equality. For the orthonormal bases $\{ \psi_i(.) \}_{i=1}^\infty$ in the Hilbert space $\mathcal{H}$ associated with kernel $k$, we have for any function $f \in L^2(a, b)$:
+\begin{align}
+f = \sum_{i=1}^\infty \langle f, \psi_i \rangle_k \psi_i. \label{equation:parsevals_theorem}
+\end{align}
+If we replace $\psi_i$ with $f$ in Eq. \eqref{equation:spectral_decomposition_operator} and consider Eq. \eqref{equation:parsevals_theorem}, we will have:
+\begin{align}
+T_k f = \sum_{i=1}^\infty \lambda_i \langle f, \psi_i \rangle_k \psi_i. \label{equation:tk_f_lambda_psi}
+\end{align}
+One can consider Eq. \eqref{equation:mercer_operator} as $T_k f = kf$. Noticing this and Eq. \eqref{equation:tk_f_lambda_psi} results in:
+\begin{align}
+kf = \sum_{i=1}^\infty \lambda_i \langle f, \psi_i \rangle_k \psi_i. \label{equation:kf_lambda_psi}
+\end{align}
+Ignoring $f$ from Eq. \eqref{equation:kf_lambda_psi} gives:
+\begin{align}
+k(x, y) = \sum_{i=1}^\infty \lambda_i \psi_i(x) \psi_i(y), \label{equation:mercer_kernel_decomposition_reproved}
+\end{align}
+which is Eq. \eqref{equation:mercer_kernel_decomposition}; hence, that is proved.
+
+\textbf{Step 4 of proof:} We deﬁne the truncated kernel $r_n$ (with parameter $n$) as:
+\begin{align}
+r_n(x, y) &:= k(x, y) - \sum_{i=1}^n \lambda_i \psi_i(x) \psi_i(y) \nonumber \\
+&= \sum_{i=n+1}^\infty \lambda_i \psi_i(x) \psi_i(y). \label{equation:truncated_kernel}
+\end{align}
+As $T_k$ is an integral operator, this truncated kernel has positive kernel, i.e., for every $x \in [a, b]$, we have:
+\begin{equation*} % Use equation* for the unnumbered part of the derivation
+r_n(x, x) = k(x, x) - \sum_{i=1}^n \lambda_i \psi_i(x) \psi_i(x) \geq 0 
+\end{equation*}
+which implies
+\begin{equation} % Use equation for the single line that requires the label
+\sum_{i=1}^n \lambda_i \psi_i(x) \psi_i(x) \leq k(x, x) \leq \sup_{x \in [a, b]} k(x, x). \label{equation:truncated_kernel_bound}
+\end{equation}
+By Cauchy-Schwartz inequality, we have:
+\begin{align*}
+\left| \sum_{i=1}^n \lambda_i \psi_i(x) \psi_i(y) \right|^2 &\leq \left( \sum_{i=1}^n \lambda_i \psi_i(x) \psi_i(x) \right) \left( \sum_{i=1}^n \lambda_i \psi_i(y) \psi_i(y) \right) \\
+&\overset{\eqref{equation:truncated_kernel_bound}}{\leq} \left( \sup_{x \in [a, b]} k(x, x) \right)^2.
+\end{align*}
+Taking second root from the sides of inequality gives:
+\begin{align}
+\sum_{i=1}^n \lambda_i \psi_i(x) \psi_i(x) \leq \sup_{x \in [a, b]} |k(x, x)| \overset{\eqref{equation:mercer_bounded}}{\leq} \infty. \label{equation:mercer_convergence}
+\end{align}
+This shows that the sequence $\sum_{i=1}^n \lambda_i \psi_i(x) \psi_i(x)$ converges absolutely and uniformly.
+\end{proof}
+
+\end{document}
