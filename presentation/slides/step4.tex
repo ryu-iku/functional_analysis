@@ -1,0 +1,138 @@
+\documentclass{article}
+\usepackage{amsmath, amssymb}
+\usepackage{geometry}
+\geometry{a4paper, margin=1in}
+
+\title{Proof of Mercer's Theorem: Step 4 - Convergence}
+\author{With Definitions of Convergence}
+\date{}
+
+\begin{document}
+\maketitle
+
+Mercer's Theorem (Theorem 2 in the provided text) states that a continuous, symmetric, positive semi-definite kernel $k(x,y)$ on a compact domain $[a,b] \times [a,b]$ can be represented by an infinite series:
+$$k(x, y) = \sum_{i=1}^\infty \lambda_i \psi_i(x) \psi_i(y)$$
+The theorem explicitly mentions that ``the convergence is \textbf{absolute and uniform}.'' Let's break down what these two terms mean in this context and why they are important.
+
+% ----
+\textbf{Absolute Convergence}
+
+$ \sum_{i=1}^\infty |\lambda_i \psi_i(x) \psi_i(y)| $
+converges for all $(x,y)$ in the domain $[a,b] \times [a,b]$.
+
+\vspace{0.5em}
+
+\textbf{Uniform Convergence}
+% A sequence of partial sums $S_N(x,y) = \sum_{i=1}^N f_i(x,y)$ converges \textbf{uniformly} to a function 
+With $f(x,y)$ on the domain, $\forall \epsilon > 0$, $\exists N_0$ (which depends \textit{only} on $\epsilon$) such that for all $N > N_0$ and for \textit{all} $(x,y) \in D$, 
+$ |\sum_{i=1}^N \lambda_i \psi_i(x) \psi_i(y) - f(x,y)| < \epsilon $
+
+
+% ----
+
+\section*{Definitions of Convergence}
+
+\subsection*{Absolute Convergence}
+\begin{enumerate}
+    \item \textbf{Definition:} A series of functions $\sum_{i=1}^\infty f_i(x,y)$ is said to converge \textbf{absolutely} if the series of the absolute values of its terms, $\sum_{i=1}^\infty |f_i(x,y)|$, converges.
+    In the context of Mercer's Theorem, this means that the series:
+    $$ \sum_{i=1}^\infty |\lambda_i \psi_i(x) \psi_i(y)| $$
+    converges for all $(x,y)$ in the domain $[a,b] \times [a,b]$.
+
+    \item \textbf{Significance:}
+    \begin{itemize}
+        \item \textbf{Stronger Condition:} Absolute convergence is a stronger condition than ordinary convergence; if a series converges absolutely, it also converges in the usual sense.
+        \item \textbf{Term Rearrangement:} A key benefit is that the order of summation does not affect the sum, which is a desirable property for mathematical manipulations in the proof.
+    \end{itemize}
+\end{enumerate}
+
+\subsection*{Uniform Convergence}
+
+\begin{enumerate}
+    \item \textbf{Definition:} A sequence of partial sums $S_N(x,y) = \sum_{i=1}^N f_i(x,y)$ converges \textbf{uniformly} to a function $f(x,y)$ on a set $D$ if, for every $\epsilon > 0$, there exists an integer $N_0$ (which depends \textit{only} on $\epsilon$, not on $x$ or $y$) such that for all $N > N_0$ and for \textit{all} $(x,y) \in D$, we have:
+    $$ |S_N(x,y) - f(x,y)| < \epsilon $$
+    Uniform convergence means that the partial sums $S_N(x,y)$ approach the limit function $k(x,y)$ at the same rate across the entire domain $[a,b] \times [a,b]$.
+
+    \item \textbf{Significance:}
+    \begin{itemize}
+        \item \textbf{Preservation of Properties:} Uniform convergence ensures that many properties of the individual terms are preserved in the limit function. Since the individual terms are continuous functions, uniform convergence guarantees that the limit function $k(x,y)$ is also continuous, which is consistent with the theorem's assumption.
+        \item \textbf{Interchange of Limits:} It allows for the interchange of limits and integrals/derivatives, essential for many operations in functional analysis related to the integral operator $T_k$.
+    \end{itemize}
+\end{enumerate}
+
+In summary, the conditions of \textbf{absolute and uniform convergence} guarantee that the infinite sum is well-behaved, converging to a definite value consistently across the domain, and preserving essential properties like continuity.
+
+\hrule
+\vspace{0.5cm}
+
+\section*{Step 4: Establishing Absolute and Uniform Convergence}
+
+\subsection*{1. Define the Remainder Term}
+We introduce the truncated kernel, $r_n(x,y)$, which represents the remainder of the infinite series after summing the first $n$ terms:
+$$r_n(x, y) := k(x, y) - \sum_{i=1}^n \lambda_i \psi_i(x) \psi_i(y) = \sum_{i=n+1}^\infty \lambda_i \psi_i(x) \psi_i(y)$$
+We will show that $r_n(x,y)$ converges uniformly to $0$ as $n \to \infty$.
+
+\subsection*{2. Positivity and Pointwise Convergence of the Diagonal}
+% From the assumptions and previous steps, the integral operator 
+$T_k$ is compact, symmetric, and positive, implying that the eigenvalues $\lambda_i$ are all non-negative.
+The remainder operator, $T_{r_n}$, is also a positive operator with kernel $r_n(x,y)$. 
+Consequently, $r_n(x,y)$ is a positive semi-definite kernel.
+The diagonal elements must be non-negative:
+$$ r_n(x, x) = k(x, x) - \sum_{i=1}^n \lambda_i \psi_i(x) \psi_i(x) \ge 0 $$
+
+This inequality implies that:
+$$ \sum_{i=1}^n \lambda_i \psi_i(x)^2 \le k(x, x) \quad $$
+
+Since $k(x,y)$ is continuous on the compact domain, $M_k = \sup_{x \in [a,b]} k(x,x) < \infty$.
+Therefore, for all $x \in [a,b]$ and any $n$:
+$$ \sum_{i=1}^n \lambda_i \psi_i(x)^2 \le M_k < \infty \quad $$
+Since the partial sums of the series $\sum_{i=1}^\infty \lambda_i \psi_i(x)^2$ are non-decreasing and bounded above, this series \textbf{converges pointwise} for every $x \in [a,b]$.
+
+\subsection*{3. Proof of Absolute Convergence for $k(x,y)$}
+% We show that the series of absolute values $\sum_{i=1}^\infty |\lambda_i \psi_i(x) \psi_i(y)|$ converges. 
+Since $\lambda_i \ge 0$, $|\lambda_i \psi_i(x) \psi_i(y)| = \lambda_i |\psi_i(x)| |\psi_i(y)|$.
+For any finite $N \in \mathbb{N}$ and any $(x,y) \in [a,b] \times [a,b]$, we apply the Cauchy-Schwarz inequality for sums:
+
+$$ \left( \sum_{i=1}^N \lambda_i |\psi_i(x)| |\psi_i(y)| \right)^2 \le \left( \sum_{i=1}^N \lambda_i \psi_i(x)^2 \right) \left( \sum_{i=1}^N \lambda_i \psi_i(y)^2 \right) \quad $$
+
+Using the bound derived in point 2.:
+$$ \left( \sum_{i=1}^N \lambda_i |\psi_i(x)| |\psi_i(y)| \right)^2 \le M_k \cdot M_k = M_k^2 $$
+Taking the square root:
+$$ \sum_{i=1}^N |\lambda_i \psi_i(x) \psi_i(y)| \le M_k $$
+% Since the partial sums of the absolute values are bounded by $M_k$ for all $N$ and all $(x,y)$, the series $\sum_{i=1}^\infty \lambda_i \psi_i(x) \psi_i(y)$ \textbf{converges absolutely}.
+
+\subsection*{4. Proof of Uniform Convergence for $k(x,y)$}
+
+\subsubsection*{A. Uniform Convergence of the Diagonal Series via Dini's Theorem}
+Let $S_n'(x) = \sum_{i=1}^n \lambda_i \psi_i(x)^2$.
+\begin{enumerate}
+    \item Each partial sum $S_n'(x)$ is a \textbf{continuous function} on $[a,b]$.
+    \item The sequence of partial sums $\{S_n'(x)\}_{n=1}^\infty$ is \textbf{monotonically increasing} for each $x$.
+    \item The sequence $S_n'(x)$ converges \textbf{pointwise} to $k(x,x)$.
+    \item The limit function $k(x,x)$ is \textbf{continuous} on the compact interval $[a,b]$.
+\end{enumerate}
+
+By \textbf{Dini's Theorem}, these four conditions imply that the convergence must be \textbf{uniform}.
+
+Thus, $R_n(x) := \sum_{i=n+1}^\infty \lambda_i \psi_i(x)^2$ converges \textbf{uniformly to $0$} as $n \to \infty$.
+
+\subsubsection*{B. Extending to Uniform Convergence of the Full Series}
+Uniform convergence of $R_n(x)$ means that for any $\epsilon' > 0$, there exists an integer $N_0$ such that for all $n > N_0$ and for all $x \in [a,b]$:
+$$ |R_n(x)| = \left| \sum_{i=n+1}^\infty \lambda_i \psi_i(x)^2 \right| < \epsilon' $$
+
+Applying the Cauchy-Schwarz inequality to $r_n(x,y)$:
+$$ |r_n(x,y)|^2 = \left| \sum_{i=n+1}^\infty \lambda_i \psi_i(x) \psi_i(y) \right|^2 \le \left( \sum_{i=n+1}^\infty \lambda_i \psi_i(x)^2 \right) \left( \sum_{i=n+1}^\infty \lambda_i \psi_i(y)^2 \right) $$
+$$ |r_n(x,y)|^2 \le R_n(x) R_n(y) $$
+For any chosen $\epsilon > 0$, let $\epsilon' = \sqrt{\epsilon}$. For $n > N_0$ (where $N_0$ corresponds to this $\epsilon'$):
+$$ |r_n(x,y)|^2 < \epsilon' \cdot \epsilon' = (\sqrt{\epsilon})^2 = \epsilon $$
+Taking the square root, we get:
+$$ |r_n(x,y)| < \sqrt{\epsilon} $$
+Since this holds for all $n > N_0$ and for all $(x,y) \in [a,b] \times [a,b]$, the series $\sum_{i=1}^\infty \lambda_i \psi_i(x) \psi_i(y)$ converges \textbf{uniformly} to $k(x,y)$.
+
+Therefore, the series representation of the kernel $k(x, y) = \sum_{i=1}^\infty \lambda_i \psi_i(x) \psi_i(y)$ converges absolutely and uniformly on $[a,b] \times [a,b]$.
+Q.E.D.
+
+
+$N$ pairs $(x_1, y_1), (x_2, y_2), ...,(x_N, y_N)$
+
+\end{document}
